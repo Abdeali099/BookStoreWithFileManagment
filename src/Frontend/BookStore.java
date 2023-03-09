@@ -20,13 +20,12 @@ public class BookStore extends JFrame {
         super(frameTitle);
 
         /* By default, step*/
-        container=getContentPane();
-//        container.setLayout(null);
+        container=getContentPane(); /* Didn't do container.setLayout=null so if any problem occurs check this. */
 
         /* INFO COMMENT : Creating main 2 Container :-
-        * jPanel
-        * jScrollPan
-        * -> jPanel Will hold jScrollPane */
+        * jPanel : mainPanel
+        * jScrollPane : mainScrollPane
+        * -> container(jFrame) Will hold mainScrollPane , and mainScrollPane will be used for mainPanel */
 
         /* Step 1 : Creating JPanel - Main Panel */
         mainPanel =new JPanel();
