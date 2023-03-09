@@ -2,6 +2,8 @@
 
 import Frontend.BookStore;
 
+import javax.swing.*;
+
 public class HomePage {
 
     public static void main(String[] args) {
@@ -9,9 +11,9 @@ public class HomePage {
         BookStore bs = new BookStore("BookStore");
 
         bs.setVisible(true);
-        bs.setLocation(350, 100);
-        bs.setSize(1000, 600);
-
+        bs.setLocation(60, 100);
+        bs.setSize(1500, 700);
+        bs.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
 }
