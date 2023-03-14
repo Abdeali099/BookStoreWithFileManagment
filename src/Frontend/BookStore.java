@@ -12,7 +12,7 @@ public class BookStore extends JFrame {
    public Container container;
     public  JPanel mainPanel;
     public JScrollPane mainScrollPane;
-    public JLabel mainHeading;
+    public JLabel mainHeading,miniHeadingMaintain;
 
     /* Manual Component */
     public AddBookPanel addBookPanel;
@@ -53,16 +53,27 @@ public class BookStore extends JFrame {
 
         mainPanel.add(mainHeading);
 
+        /* Step : adding a mini heading : Maintain
+        * This can be reduced by making separate class but, I get error in it.
+        *  */
+        miniHeadingMaintain = new JLabel();
+        miniHeadingMaintain.setText("--- Maintain Book ---");
+        miniHeadingMaintain.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 18)); // NOI18N
+        miniHeadingMaintain.setForeground(java.awt.Color.red);
+        miniHeadingMaintain.setBounds(55,70,200,35);
+        mainPanel.add(miniHeadingMaintain);
+
         /* Step 4 : adding Add Book  Form (Whole  Panel) */
         addBookPanel=new AddBookPanel(this);
         addBookPanel.setLayout(null);
         addBookPanel.setVisible(true);
-        addBookPanel.setBounds(50,70,1500,500);
+        addBookPanel.setBounds(50,110,1500,500);
         addBookPanel.setBackground(new java.awt.Color(240, 240, 140));
         addBookPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.darkGray, java.awt.Color.black, java.awt.Color.darkGray));
         addBookPanel.setForeground(new java.awt.Color(25, 0, 0));
 
         mainPanel.add(addBookPanel);
+
         /* Temporary closing event */
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -79,7 +90,6 @@ class AddBookPanel extends JPanel {
       public  JTextField tfBookID,tfBookName,tfBookSubject,tfAuthorName,tfPublication,tfDatePublication,tfTotalCost;
       public JSpinner spBookPrice,spBookQuantity;
       SpinnerModel valueOfPrice,valueOfQuantity;
-      public JButton btnAdd,btnCancle,btnDelete;
 
 
     public AddBookPanel(BookStore mainContainer) {
@@ -211,8 +221,7 @@ class AddBookPanel extends JPanel {
 
 class operationButtonPanel extends JPanel {
 
-}
+    public JButton btnAdd,btnCancle,btnDelete,btnEdit;
 
-class LabelsInBookStore extends JLabel {
 
 }
