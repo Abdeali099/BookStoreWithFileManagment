@@ -59,7 +59,7 @@ public class BookStore extends JFrame {
         *  */
         miniHeadingMaintain = new JLabel();
         miniHeadingMaintain.setText("--- Maintain Book ---");
-        miniHeadingMaintain.setFont(new java.awt.Font("Yu Gothic UI Light", Font.BOLD, 18)); // NOI18N
+        miniHeadingMaintain.setFont(new java.awt.Font("Yu Gothic UI Bold", Font.BOLD, 18)); // NOI18N
         miniHeadingMaintain.setForeground(new java.awt.Color(255, 255, 255));
         miniHeadingMaintain.setBounds(55,70,200,35);
         mainPanel.add(miniHeadingMaintain);
@@ -68,7 +68,7 @@ public class BookStore extends JFrame {
         addBookPanel=new AddBookPanel(this);
         addBookPanel.setLayout(null);
         addBookPanel.setVisible(true);
-        addBookPanel.setBounds(50,110,1500,420);
+        addBookPanel.setBounds(50,110,1500,400);
         addBookPanel.setBackground(new java.awt.Color(240, 240, 140, 185));
 //        addBookPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.darkGray, java.awt.Color.black, java.awt.Color.darkGray));
         addBookPanel.setForeground(new java.awt.Color(25, 0, 0));
@@ -94,6 +94,8 @@ class AddBookPanel extends JPanel {
 
     /* Button Panel*/
     OperationButtonPanel operationButtonPanel;
+    /* Image Panel*/
+    BookCover bookCover;
 
     public AddBookPanel(BookStore mainContainer) {
         this.mainContainer = mainContainer;
@@ -219,16 +221,24 @@ class AddBookPanel extends JPanel {
         this.add(tfTotalCost);
 
         /* Adding Button Panel */
-
         operationButtonPanel=new OperationButtonPanel(mainContainer);
         operationButtonPanel.setBackground(new java.awt.Color(174, 202, 153, 255));
-        operationButtonPanel.setBounds(320,350,800,40);
+        operationButtonPanel.setBounds(40,320,1000,40);
         operationButtonPanel.setLayout(new GridLayout(1, 4, 20, 25));
         this.add(operationButtonPanel);
+
+        /* Book cover Panel */
+        bookCover=new BookCover(mainContainer);
+        bookCover.setBounds(1090,20,350,350);
+        bookCover.setBackground(new java.awt.Color(174, 202, 153, 255));
+        bookCover.setLayout(null);
+        this.add(bookCover);
+
 
     }
 }
 
+/* It contains Operational Button */
 class OperationButtonPanel extends JPanel {
 
     /* Main frame */
@@ -278,6 +288,39 @@ class OperationButtonPanel extends JPanel {
         this.add(btnCancel);
 
 
+    }
+
+
+}
+
+class BookCover extends JPanel {
+
+    /* Main container */
+    BookStore mainContainer;
+
+    /* Component */
+    JLabel bookCoverImage;
+    JButton btnBrowseImage;
+
+
+    BookCover(BookStore mainContainer) {
+        this.mainContainer=mainContainer;
+
+
+        bookCoverImage=new JLabel();
+        bookCoverImage.setBounds(80,20,200,250);
+        ImageIcon test=new ImageIcon("src\\assets\\bookCover.png");
+        Image img=test.getImage().getScaledInstance(bookCoverImage.getWidth(),bookCoverImage.getHeight(),Image.SCALE_SMOOTH);
+        bookCoverImage.setIcon(new ImageIcon(img));
+        this.add(bookCoverImage);
+
+        ImageIcon browseIcon=new ImageIcon("src\\assets\\browseIcon.png");
+        btnBrowseImage=new JButton("Cover",browseIcon);
+        btnBrowseImage.setBounds(100,290,150,35);
+        btnBrowseImage.setFont(new Font("Arial Rounded MT", Font.PLAIN, 20));
+        btnBrowseImage.setForeground(new java.awt.Color(255, 255, 255));
+        btnBrowseImage.setBackground(new java.awt.Color(0, 103, 184));
+        this.add(btnBrowseImage);
     }
 
 
