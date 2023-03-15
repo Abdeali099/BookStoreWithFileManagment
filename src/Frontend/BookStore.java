@@ -35,7 +35,7 @@ public class BookStore extends JFrame {
         mainPanel.setBounds(0, 0, 1000, 1000); /* Faulty Operation (Not correct dimension) */
         mainPanel.setVisible(true);
         mainPanel.setLayout(null);
-        mainPanel.setBackground(Color.cyan);
+        mainPanel.setBackground(new java.awt.Color(0, 103, 184));
 
         container.add(mainPanel);
 
@@ -49,7 +49,8 @@ public class BookStore extends JFrame {
         mainHeading = new JLabel();
         mainHeading.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 36));
         mainHeading.setText("Admin Panel");
-        mainHeading.setBounds(740, 20, 500, 36);
+        mainHeading.setForeground(new java.awt.Color(255, 255, 255));
+        mainHeading.setBounds(730, 20, 500, 36);
 
         mainPanel.add(mainHeading);
 
@@ -59,7 +60,7 @@ public class BookStore extends JFrame {
         miniHeadingMaintain = new JLabel();
         miniHeadingMaintain.setText("--- Maintain Book ---");
         miniHeadingMaintain.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 18)); // NOI18N
-        miniHeadingMaintain.setForeground(java.awt.Color.red);
+        miniHeadingMaintain.setForeground(new java.awt.Color(255, 255, 255));
         miniHeadingMaintain.setBounds(55,70,200,35);
         mainPanel.add(miniHeadingMaintain);
 
@@ -68,8 +69,8 @@ public class BookStore extends JFrame {
         addBookPanel.setLayout(null);
         addBookPanel.setVisible(true);
         addBookPanel.setBounds(50,110,1500,500);
-        addBookPanel.setBackground(new java.awt.Color(240, 240, 140));
-        addBookPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.darkGray, java.awt.Color.black, java.awt.Color.darkGray));
+        addBookPanel.setBackground(new java.awt.Color(240, 240, 140, 185));
+//        addBookPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.darkGray, java.awt.Color.black, java.awt.Color.darkGray));
         addBookPanel.setForeground(new java.awt.Color(25, 0, 0));
 
         mainPanel.add(addBookPanel);
