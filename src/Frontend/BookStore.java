@@ -9,7 +9,6 @@ import java.awt.*;
 public class BookStore extends JFrame {
 
     /* Component */
-   public Container container;
     public  JPanel mainPanel;
     public JScrollPane mainScrollPane;
     public JLabel mainHeading,miniHeadingMaintain;
@@ -22,57 +21,44 @@ public class BookStore extends JFrame {
     public BookStore(String frameTitle) {
         super(frameTitle);
 
-        /* By default, step*/
-        container = getContentPane(); /* Didn't do container.setLayout=null so if any problem occurs check this. */
-
-        /* INFO COMMENT : Creating main 2 Container :-
-         * jPanel : mainPanel
-         * jScrollPane : mainScrollPane
-         * -> container(jFrame) Will hold mainScrollPane , and mainScrollPane will be used for mainPanel */
+        this.setLayout(null);
 
         /* Step 1 : Creating JPanel - Main Panel */
         mainPanel = new JPanel();
-        mainPanel.setBounds(0, 0, 1000, 1000); /* Faulty Operation (Not correct dimension) */
-        mainPanel.setVisible(true);
         mainPanel.setLayout(null);
         mainPanel.setBackground(new java.awt.Color(0, 103, 184));
-
-        container.add(mainPanel);
+        mainPanel.setPreferredSize(new Dimension(1500,1500)); /* Very Important : from this We get ScrollBar */
+        this.add(mainPanel);
 
         /* Step 2 : Creating JScrollPane - Main ScrollPane */
         mainScrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        mainScrollPane.setBounds(0, 0, 1600, 838); /* Faulty Operation (Not correct dimension) */
         mainScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        container.add(mainScrollPane);
+        this.add(mainScrollPane);
 
         /* Step 3 : Adding Main Heading */
         mainHeading = new JLabel();
         mainHeading.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 36));
         mainHeading.setText("Admin Panel");
         mainHeading.setForeground(new java.awt.Color(255, 255, 255));
-        mainHeading.setBounds(730, 20, 500, 36);
-
+        mainHeading.setBounds(700, 20, 500, 36);
         mainPanel.add(mainHeading);
 
-        /* Step : adding a mini heading : Maintain
-        * This can be reduced by making separate class but, I get error in it.
-        *  */
+        /* Step : adding a mini heading : Maintain */
         miniHeadingMaintain = new JLabel();
         miniHeadingMaintain.setText("--- Maintain Book ---");
         miniHeadingMaintain.setFont(new java.awt.Font("Yu Gothic UI Bold", Font.BOLD, 18)); // NOI18N
         miniHeadingMaintain.setForeground(new java.awt.Color(255, 255, 255));
-        miniHeadingMaintain.setBounds(55,70,200,35);
+        miniHeadingMaintain.setBounds(45,45,200,35);
         mainPanel.add(miniHeadingMaintain);
 
         /* Step 4 : adding Add Book  Form (Whole  Panel) */
         addBookPanel=new AddBookPanel(this);
         addBookPanel.setLayout(null);
         addBookPanel.setVisible(true);
-        addBookPanel.setBounds(50,110,1500,400);
+        addBookPanel.setBounds(40,90,1500,400);
         addBookPanel.setBackground(new java.awt.Color(240, 240, 140, 185));
-//        addBookPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.darkGray, java.awt.Color.black, java.awt.Color.darkGray));
         addBookPanel.setForeground(new java.awt.Color(25, 0, 0));
-
         mainPanel.add(addBookPanel);
 
         /* Temporary closing event */
@@ -293,6 +279,7 @@ class OperationButtonPanel extends JPanel {
 
 }
 
+/* Book cover panel */
 class BookCover extends JPanel {
 
     /* Main container */
