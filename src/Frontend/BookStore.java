@@ -362,7 +362,7 @@ class BookFilterPanel extends JPanel {
 
         /* Filter TextField */
         tfSearchField = new javax.swing.JTextField();
-        tfSearchField.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
+        tfSearchField.setFont(new java.awt.Font("Trebuchet MS",Font.PLAIN, 18));
         tfSearchField.setToolTipText("Enter data");
         tfSearchField.setBounds(385,10,400,30);
         this.add(tfSearchField);
@@ -376,9 +376,6 @@ class BookFilterPanel extends JPanel {
         btnSearch.setForeground(new java.awt.Color(255, 255, 255));
         btnSearch.setBackground(new java.awt.Color(0, 103, 184));
         this.add(btnSearch);
-
-
-// Code adding the component to the parent container - not shown here
 
     }
 
