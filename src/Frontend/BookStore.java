@@ -2,8 +2,14 @@
 
 package Frontend;
 
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Properties;
 
 /* It is a Main Frame */
 public class BookStore extends JFrame {
@@ -11,11 +17,12 @@ public class BookStore extends JFrame {
     /* Component */
     public  JPanel mainPanel;
     public JScrollPane mainScrollPane;
-    public JLabel mainHeading,miniHeadingMaintain,miniHeadingFilter;
+    public JLabel mainHeading,miniHeadingMaintain,miniHeadingFilter,miniHeadingAvailable;
 
     /* Manual Component */
     public AddBookPanel addBookPanel;
     public BookFilterPanel bookFilterPanel;
+    public BookTable bookTable;
 
     /* Variable */
 
@@ -27,7 +34,7 @@ public class BookStore extends JFrame {
         /* Step 1 : Creating JPanel - Main Panel */
         mainPanel = new JPanel();
         mainPanel.setLayout(null);
-        mainPanel.setBackground(new java.awt.Color(0, 103, 184));
+        mainPanel.setBackground(new java.awt.Color(11, 70, 117));
         mainPanel.setPreferredSize(new Dimension(1500,1500)); /* Very Important : from this We get ScrollBar */
         this.add(mainPanel);
 
@@ -62,7 +69,7 @@ public class BookStore extends JFrame {
         addBookPanel.setForeground(new java.awt.Color(25, 0, 0));
         mainPanel.add(addBookPanel);
 
-        /* Step : adding a mini heading : Maintain */
+        /* Step : adding a mini heading : filterBook */
         miniHeadingFilter = new JLabel();
         miniHeadingFilter.setText("--- Filter Book ---");
         miniHeadingFilter.setFont(new java.awt.Font("Yu Gothic UI Bold", Font.BOLD, 18)); // NOI18N
@@ -76,9 +83,25 @@ public class BookStore extends JFrame {
         bookFilterPanel.setVisible(true);
         bookFilterPanel.setBounds(300,550,1000,50);
         bookFilterPanel.setBackground(new java.awt.Color(240, 240, 140, 185));
-//        bookFilterPanel.setBackground(new java.awt.Color(0, 103, 184));
         bookFilterPanel.setForeground(new java.awt.Color(25, 0, 0));
         mainPanel.add(bookFilterPanel);
+
+        /* Step : adding a mini heading : Available Book */
+        miniHeadingAvailable = new JLabel();
+        miniHeadingAvailable.setText("--- Available Book ---");
+        miniHeadingAvailable.setFont(new java.awt.Font("Yu Gothic UI Bold", Font.BOLD, 18)); // NOI18N
+        miniHeadingAvailable.setForeground(new java.awt.Color(255, 255, 255));
+        miniHeadingAvailable.setBounds(45,595,200,35);
+        mainPanel.add(miniHeadingAvailable);
+
+        /* Step 5 : adding Available panel */
+        bookTable=new BookTable(this);
+        bookTable.setLayout(null);
+        bookTable.setVisible(true);
+        bookTable.setBounds(40,645,1500,400);
+        bookTable.setBackground(new java.awt.Color(240, 240, 140, 185));
+        bookTable.setForeground(new java.awt.Color(25, 0, 0));
+        mainPanel.add(bookTable);
 
         /* Temporary closing event */
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -92,7 +115,10 @@ class AddBookPanel extends JPanel {
     BookStore mainContainer;
 
     /* Component */
-    public JLabel lbBookID, lbBookName, lbBookSubject, lbAuthorName, lbPublication, lbDatePublication, lbBookPrice, lbBookQuantity, lbTotalCost;
+    public JLabel lbBookID,
+
+            /* Input 2 : Book Name */
+            lbBookName = new JLabel(), lbBookSubject, lbAuthorName, lbPublication, lbDatePublication, lbBookPrice, lbBookQuantity, lbTotalCost;
     public JTextField tfBookID, tfBookName, tfBookSubject, tfAuthorName, tfPublication, tfDatePublication, tfTotalCost;
     public JSpinner spBookPrice, spBookQuantity;
     SpinnerModel valueOfPrice, valueOfQuantity;
@@ -120,8 +146,6 @@ class AddBookPanel extends JPanel {
         tfBookID.setToolTipText("Eg. 101");
         this.add(tfBookID);
 
-        /* Input 2 : Book Name */
-        lbBookName = new JLabel();
         lbBookName.setText("Book Name");
         lbBookName.setFont(new java.awt.Font("Yu Gothic Medium", Font.BOLD, 18));
         lbBookName.setBounds(580, 20, 150, 35);
@@ -180,6 +204,11 @@ class AddBookPanel extends JPanel {
         lbDatePublication.setBounds(550, 160, 150, 35);
         this.add(lbDatePublication);
 
+//        Properties i18nStrings=null;
+//        UtilDateModel model = new UtilDateModel();
+//        JDatePanelImpl datePanel = new JDatePanelImpl(model,i18nStrings);
+//        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+
         tfDatePublication = new JTextField();
         tfDatePublication.setFont(new java.awt.Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfDatePublication.setBounds(710, 160, 320, 30);
@@ -235,7 +264,7 @@ class AddBookPanel extends JPanel {
         /* Book cover Panel */
         bookCover=new BookCover(mainContainer);
         bookCover.setBounds(1090,20,350,350);
-        bookCover.setBackground(new java.awt.Color(174, 202, 153, 255));
+        bookCover.setBackground(new java.awt.Color(177, 190, 132, 255));
         bookCover.setLayout(null);
         this.add(bookCover);
 
@@ -324,7 +353,7 @@ class BookCover extends JPanel {
         btnBrowseImage=new JButton("Cover",browseIcon);
         btnBrowseImage.setBounds(100,290,150,35);
         btnBrowseImage.setFont(new Font("Arial Rounded MT", Font.PLAIN, 20));
-        btnBrowseImage.setForeground(new java.awt.Color(255, 255, 255));
+//        btnBrowseImage.setBackground(new java.awt.Color(240, 240, 140, 185));
         btnBrowseImage.setBackground(new java.awt.Color(0, 103, 184));
         this.add(btnBrowseImage);
     }
@@ -381,5 +410,34 @@ class BookFilterPanel extends JPanel {
 
 
 
+
+}
+
+/* Table Panel */
+
+class BookTable extends JPanel {
+
+    /* Main container */
+    BookStore mainContainer;
+
+    /* Component */
+    String[][] data ={ {"101","abc","OS","Abdeali","Mat","25/12/2002","200","1","200","cover"}};
+    String[] column ={"ID","BOOK NAME","BOOK SUBJECT","AUTHOR NAME","PUBLICATION","DATE","PRICE","QUANTITY","TOTAL COST","COVER"};
+    DefaultTableModel defaultTableModel;
+    JTable bookTable;
+    JScrollPane jspBookTable;
+
+    BookTable(BookStore mainContainer) {
+        this.mainContainer=mainContainer;
+
+        defaultTableModel=new DefaultTableModel(data,column);
+        bookTable=new JTable(defaultTableModel);
+        bookTable.setVisible(true);
+        jspBookTable=new JScrollPane(bookTable,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jspBookTable.setBounds(0,0,1500,400);
+
+        this.add(jspBookTable);
+        validate();
+    }
 
 }
