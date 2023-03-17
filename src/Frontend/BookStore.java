@@ -1,15 +1,12 @@
 /* This is a Main Frontend Class */
 
 package Frontend;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+import com.raven.datechooser.DateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Properties;
+
 
 /* It is a Main Frame */
 public class BookStore extends JFrame {
@@ -115,13 +112,12 @@ class AddBookPanel extends JPanel {
     BookStore mainContainer;
 
     /* Component */
-    public JLabel lbBookID,
-
-            /* Input 2 : Book Name */
-            lbBookName = new JLabel(), lbBookSubject, lbAuthorName, lbPublication, lbDatePublication, lbBookPrice, lbBookQuantity, lbTotalCost;
+    public JLabel lbBookID,lbBookName, lbBookSubject, lbAuthorName, lbPublication, lbDatePublication, lbBookPrice, lbBookQuantity, lbTotalCost;
     public JTextField tfBookID, tfBookName, tfBookSubject, tfAuthorName, tfPublication, tfDatePublication, tfTotalCost;
     public JSpinner spBookPrice, spBookQuantity;
     SpinnerModel valueOfPrice, valueOfQuantity;
+    public ImageIcon calenderIcon;
+    public JButton btnCalender;
 
     /* Button Panel*/
     OperationButtonPanel operationButtonPanel;
@@ -146,6 +142,9 @@ class AddBookPanel extends JPanel {
         tfBookID.setToolTipText("Eg. 101");
         this.add(tfBookID);
 
+        /* Input 2 : Book Name */
+
+        lbBookName = new JLabel();
         lbBookName.setText("Book Name");
         lbBookName.setFont(new java.awt.Font("Yu Gothic Medium", Font.BOLD, 18));
         lbBookName.setBounds(580, 20, 150, 35);
@@ -204,16 +203,24 @@ class AddBookPanel extends JPanel {
         lbDatePublication.setBounds(550, 160, 150, 35);
         this.add(lbDatePublication);
 
-//        Properties i18nStrings=null;
-//        UtilDateModel model = new UtilDateModel();
-//        JDatePanelImpl datePanel = new JDatePanelImpl(model,i18nStrings);
-//        JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
-
         tfDatePublication = new JTextField();
         tfDatePublication.setFont(new java.awt.Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
-        tfDatePublication.setBounds(710, 160, 320, 30);
-        tfDatePublication.setToolTipText("Eg. 30/01/2002");
+        tfDatePublication.setBounds(710, 160, 285, 30);
+        tfDatePublication.setToolTipText("Eg. 30-01-2002");
         this.add(tfDatePublication);
+
+        calenderIcon=new ImageIcon("src\\assets\\calenderIcon.png");
+        btnCalender=new JButton(calenderIcon);
+        btnCalender.setBounds(1000,160,32,32);
+        this.add(btnCalender);
+
+        DateChooser dateChooser=new DateChooser();
+        dateChooser.setTextRefernce(tfDatePublication);
+        dateChooser.setForeground(new java.awt.Color(0, 103, 184));
+
+        btnCalender.addActionListener(event -> {
+            dateChooser.showPopup();
+        });
 
         /* Input 7 : Price Of Book */
         lbBookPrice = new JLabel();
@@ -354,6 +361,7 @@ class BookCover extends JPanel {
         btnBrowseImage.setBounds(100,290,150,35);
         btnBrowseImage.setFont(new Font("Arial Rounded MT", Font.PLAIN, 20));
 //        btnBrowseImage.setBackground(new java.awt.Color(240, 240, 140, 185));
+        btnBrowseImage.setForeground(Color.white);
         btnBrowseImage.setBackground(new java.awt.Color(0, 103, 184));
         this.add(btnBrowseImage);
     }
@@ -399,7 +407,6 @@ class BookFilterPanel extends JPanel {
          /* Search Button */
         searchIcon=new ImageIcon("src\\assets\\searchIcon.png");
         btnSearch=new JButton("Search",searchIcon);
-        btnSearch.setBounds(100,290,150,35);
         btnSearch.setFont(new Font("Arial Rounded MT", Font.PLAIN, 20));
         btnSearch.setBounds(795,10,200,30);
         btnSearch.setForeground(new java.awt.Color(255, 255, 255));
