@@ -11,10 +11,11 @@ public class BookStore extends JFrame {
     /* Component */
     public  JPanel mainPanel;
     public JScrollPane mainScrollPane;
-    public JLabel mainHeading,miniHeadingMaintain;
+    public JLabel mainHeading,miniHeadingMaintain,miniHeadingFilter;
 
     /* Manual Component */
     public AddBookPanel addBookPanel;
+    public BookFilterPanel bookFilterPanel;
 
     /* Variable */
 
@@ -52,7 +53,7 @@ public class BookStore extends JFrame {
         miniHeadingMaintain.setBounds(45,45,200,35);
         mainPanel.add(miniHeadingMaintain);
 
-        /* Step 4 : adding Add Book  Form (Whole  Panel) */
+        /* Step 4 : adding Add Book  Form  */
         addBookPanel=new AddBookPanel(this);
         addBookPanel.setLayout(null);
         addBookPanel.setVisible(true);
@@ -60,6 +61,24 @@ public class BookStore extends JFrame {
         addBookPanel.setBackground(new java.awt.Color(240, 240, 140, 185));
         addBookPanel.setForeground(new java.awt.Color(25, 0, 0));
         mainPanel.add(addBookPanel);
+
+        /* Step : adding a mini heading : Maintain */
+        miniHeadingFilter = new JLabel();
+        miniHeadingFilter.setText("--- Filter Book ---");
+        miniHeadingFilter.setFont(new java.awt.Font("Yu Gothic UI Bold", Font.BOLD, 18)); // NOI18N
+        miniHeadingFilter.setForeground(new java.awt.Color(255, 255, 255));
+        miniHeadingFilter.setBounds(45,510,200,35);
+        mainPanel.add(miniHeadingFilter);
+
+        /* Step 5 : adding Filter panel */
+        bookFilterPanel=new BookFilterPanel(this);
+        bookFilterPanel.setLayout(null);
+        bookFilterPanel.setVisible(true);
+        bookFilterPanel.setBounds(300,550,1000,50);
+        bookFilterPanel.setBackground(new java.awt.Color(240, 240, 140, 185));
+//        bookFilterPanel.setBackground(new java.awt.Color(0, 103, 184));
+        bookFilterPanel.setForeground(new java.awt.Color(25, 0, 0));
+        mainPanel.add(bookFilterPanel);
 
         /* Temporary closing event */
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -309,6 +328,61 @@ class BookCover extends JPanel {
         btnBrowseImage.setBackground(new java.awt.Color(0, 103, 184));
         this.add(btnBrowseImage);
     }
+
+
+}
+
+/* Panel for searching Book */
+class BookFilterPanel extends JPanel {
+
+    /* Main container */
+    BookStore mainContainer;
+
+    /* Component */
+
+    JTextField tfSearchField;
+    JButton btnSearch;
+    ImageIcon searchIcon;
+    DefaultListCellRenderer listRenderer;
+
+    JComboBox<String> comboBoxFilter;
+
+    BookFilterPanel(BookStore mainContainer) {
+        this.mainContainer=mainContainer;
+
+        /* ComboBox for option */
+        comboBoxFilter = new JComboBox<>();
+        comboBoxFilter.setFont(new java.awt.Font("Times New Roman", Font.BOLD, 18)); // NOI18N
+        comboBoxFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Book Name", "Author Name", "Publication" }));
+        comboBoxFilter.setBounds(15,10,350,30);
+        listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER); // center-aligned items
+        comboBoxFilter.setRenderer(listRenderer);
+        this.add(comboBoxFilter);
+
+        /* Filter TextField */
+        tfSearchField = new javax.swing.JTextField();
+        tfSearchField.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
+        tfSearchField.setToolTipText("Enter data");
+        tfSearchField.setBounds(385,10,400,30);
+        this.add(tfSearchField);
+
+         /* Search Button */
+        searchIcon=new ImageIcon("src\\assets\\searchIcon.png");
+        btnSearch=new JButton("Search",searchIcon);
+        btnSearch.setBounds(100,290,150,35);
+        btnSearch.setFont(new Font("Arial Rounded MT", Font.PLAIN, 20));
+        btnSearch.setBounds(795,10,200,30);
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setBackground(new java.awt.Color(0, 103, 184));
+        this.add(btnSearch);
+
+
+// Code adding the component to the parent container - not shown here
+
+    }
+
+
 
 
 }
