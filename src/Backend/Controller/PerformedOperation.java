@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class PerformedOperation implements OperationsOnBookData{
 
-   private static ArrayList<BookDataClass> booksAvialableArrayList=new ArrayList<>();
+   private static final ArrayList<BookDataClass> booksAvialableArrayList=new ArrayList<>();
 
     @Override
     public ArrayList<BookDataClass> AddBook(BookDataClass bookDataClass) {
