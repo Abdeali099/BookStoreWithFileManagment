@@ -15,11 +15,11 @@ public class BookActionListener implements ActionListener {
     /* main frame */
     public BookStore bookStore;
     /* Operation On Book (as a Controller)*/
-    private PerformedOperation performedOperation;
+    private final PerformedOperation performedOperation;
     /* Data of Book */
-     private BookDataClass bookDataClass;
+     private final BookDataClass bookDataClass;
     /* ArrayList for data of Book*/
-    private ArrayList<BookDataClass> bookDataClassArrayList;
+    public ArrayList<BookDataClass> bookDataClassArrayList;
 
     public BookActionListener(BookStore bookStore) {
         this.bookStore = bookStore;
@@ -30,29 +30,15 @@ public class BookActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
 
-        String opeartionHappen=event.getActionCommand();
+        String operationHappen=event.getActionCommand();
 
-        if (opeartionHappen.equals("Add")) {
-              doAddOperation();
+        switch (operationHappen) {
+            case "Add" -> doAddOperation();
+            case "Update" -> doUpdateOperation();
+            case "Delete" -> doDeleteOperation();
+            case "Cancel" -> doCancelOperation();
+            case "Cover" -> browseCover();
         }
-        else if (opeartionHappen.equals("Cover")) {
-            browseCover();
-        }
-
-    }
-
-    private void browseCover() {
-
-        /* Taking path */
-        String pathOfBookCover=performedOperation.fetchBookCover();
-
-        /* Taking reference from Frame*/
-        JLabel bookCoverImage=bookStore.addBookPanel.bookCover.bookCoverImage;
-
-        /* Setting Cover on Frame */
-        ImageIcon bookCoverIcon = new ImageIcon(pathOfBookCover);
-        Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
-        bookCoverImage.setIcon(new ImageIcon(img));
 
     }
 
@@ -72,5 +58,29 @@ public class BookActionListener implements ActionListener {
         bookDataClassArrayList=performedOperation.AddBook(bookDataClass);
 
         bookDataClassArrayList.forEach(student -> System.out.println(student));
+    }
+
+    private void doUpdateOperation() {
+    }
+
+    private void doDeleteOperation() {
+    }
+
+    private void doCancelOperation() {
+    }
+
+    private void browseCover() {
+
+        /* Taking path */
+        String pathOfBookCover=performedOperation.fetchBookCover();
+
+        /* Taking reference from Frame*/
+        JLabel bookCoverImage=bookStore.addBookPanel.bookCover.bookCoverImage;
+
+        /* Setting Cover on Frame */
+        ImageIcon bookCoverIcon = new ImageIcon(pathOfBookCover);
+        Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
+        bookCoverImage.setIcon(new ImageIcon(img));
+
     }
 }

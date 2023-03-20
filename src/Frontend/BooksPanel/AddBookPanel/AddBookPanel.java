@@ -166,7 +166,7 @@ public class AddBookPanel extends JPanel {
         lbBookQuantity.setBounds(280, 240, 250, 35);
         this.add(lbBookQuantity);
 
-        valueOfQuantity = new SpinnerNumberModel(1, 0, 250, 1);
+        valueOfQuantity = new SpinnerNumberModel(1, 1, 250, 1);
         spBookQuantity = new JSpinner(valueOfQuantity);
         spBookQuantity.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         spBookQuantity.setBounds(420, 240, 100, 30);

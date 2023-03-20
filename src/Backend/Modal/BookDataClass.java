@@ -7,7 +7,7 @@ public class BookDataClass {
     /* Defining All Attributes */
 
     private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
-    private String bookName,bookSubject,authorName,dateOfPublication,publication;
+    private String bookName,bookSubject,authorName,dateOfPublication,publication,bookCoverPath="src\\assets\\byDefaultCover.jpg";
 
 
     public int getBookId() {
@@ -46,6 +46,10 @@ public class BookDataClass {
         return publication;
     }
 
+    public String getBookCoverPath() {
+        return bookCoverPath;
+    }
+
     public void setBookId(int bookId) {
         this.bookId = bookId;
     }
@@ -82,6 +86,10 @@ public class BookDataClass {
         this.publication = publication;
     }
 
+    public void setBookCoverPath(String bookCoverPath) {
+        this.bookCoverPath = bookCoverPath;
+    }
+
     @Override
     public String toString() {
         return "BookDataClass{" +
@@ -94,6 +102,7 @@ public class BookDataClass {
                 ", authorName='" + authorName + '\'' +
                 ", dateOfPublication='" + dateOfPublication + '\'' +
                 ", publication='" + publication + '\'' +
+                ", bookCoverPath='" + bookCoverPath + '\'' +
                 '}';
     }
 }
