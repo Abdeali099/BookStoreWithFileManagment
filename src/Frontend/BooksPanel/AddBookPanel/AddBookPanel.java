@@ -5,6 +5,7 @@ import Frontend.BookStore;
 import com.raven.datechooser.DateChooser;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatter;
 import java.awt.*;
 
 /* It is a Form (Operation)  Frame */
@@ -28,6 +29,9 @@ public class AddBookPanel extends JPanel {
     public OperationButtonPanel operationButtonPanel;
     /* Image Panel*/
     public BookCover bookCover;
+
+    /* Integer for book Price,Quantity,TotalCost*/
+    int IntBookPrice=200,IntBookQuantity=1,IntBookTotalCost=IntBookPrice*IntBookQuantity;
 
     public AddBookPanel(BookStore mainContainer) {
         this.mainContainer = mainContainer;
@@ -144,6 +148,11 @@ public class AddBookPanel extends JPanel {
         spBookPrice.setBounds(150, 240, 100, 30);
         this.add(spBookPrice);
 
+        JComponent comp = spBookPrice.getEditor();
+        JFormattedTextField field = (JFormattedTextField) comp.getComponent(0);
+        DefaultFormatter formatter = (DefaultFormatter) field.getFormatter();
+        formatter.setCommitsOnValidEdit(true);
+
         /* Input 8 : Quantity Of Book */
         lbBookQuantity = new JLabel();
         lbBookQuantity.setText("Book Quantity");
@@ -157,6 +166,11 @@ public class AddBookPanel extends JPanel {
         spBookQuantity.setBounds(420, 240, 100, 30);
         this.add(spBookQuantity);
 
+        JComponent compForQuantity = spBookQuantity.getEditor();
+        JFormattedTextField fieldForQuantity = (JFormattedTextField) compForQuantity.getComponent(0);
+        DefaultFormatter formatterForQuantity = (DefaultFormatter) fieldForQuantity.getFormatter();
+        formatterForQuantity.setCommitsOnValidEdit(true);
+
         /* Input 8 : Total Cost Of Book ( TotalCost = Price * Quantity) */
         lbTotalCost = new JLabel();
         lbTotalCost.setText("Total Cost");
@@ -165,10 +179,32 @@ public class AddBookPanel extends JPanel {
         this.add(lbTotalCost);
 
         tfTotalCost = new JTextField();
+        tfTotalCost.setText("200");
         tfTotalCost.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfTotalCost.setBounds(710, 240, 320, 30);
         tfTotalCost.setEditable(false);
         this.add(tfTotalCost);
+
+
+        /* Listener for change of Total cost when one of 2 value changes */
+
+        try {
+            spBookPrice.addChangeListener(event -> {
+
+                IntBookPrice= (int) spBookPrice.getValue();
+                IntBookTotalCost=IntBookPrice*IntBookQuantity;
+                tfTotalCost.setText(""+IntBookTotalCost);
+
+            });
+            spBookQuantity.addChangeListener(event -> {
+
+                IntBookQuantity= (int) spBookQuantity.getValue();
+                IntBookTotalCost=IntBookPrice*IntBookQuantity;
+                tfTotalCost.setText(""+IntBookTotalCost);
+            });
+        } catch (Exception e) {
+        System.out.println("Error In Change of total cost : " + e + " Msg : " + e.getMessage());
+        }
 
         /* Adding Button Panel */
         operationButtonPanel = new OperationButtonPanel(mainContainer);
