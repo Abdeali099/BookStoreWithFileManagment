@@ -24,6 +24,7 @@ public class AddBookPanel extends JPanel {
     SpinnerModel valueOfPrice, valueOfQuantity;
     public ImageIcon calenderIcon;
     public JButton btnCalender;
+    public DateChooser dateChooser;
 
     /* Button Panel*/
     public OperationButtonPanel operationButtonPanel;
@@ -127,9 +128,14 @@ public class AddBookPanel extends JPanel {
         btnCalender.setBounds(1000, 160, 32, 32);
         this.add(btnCalender);
 
-        DateChooser dateChooser = new DateChooser();
-        dateChooser.setTextRefernce(tfDatePublication);
-        dateChooser.setForeground(new Color(0, 103, 184));
+        try {
+            dateChooser = new DateChooser();
+            dateChooser.setTextRefernce(tfDatePublication);
+            dateChooser.setForeground(new Color(0, 103, 184));
+
+        } catch (Exception e) {
+            System.out.println("Error In calender : " + e + " Msg : " + e.getMessage());
+        }
 
         btnCalender.addActionListener(event -> {
             dateChooser.showPopup();
@@ -219,7 +225,5 @@ public class AddBookPanel extends JPanel {
         bookCover.setBackground(new Color(177, 190, 132, 255));
         bookCover.setLayout(null);
         this.add(bookCover);
-
-
     }
 }

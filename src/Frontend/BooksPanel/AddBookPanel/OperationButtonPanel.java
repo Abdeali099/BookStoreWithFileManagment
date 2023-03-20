@@ -40,7 +40,7 @@ public class OperationButtonPanel extends JPanel {
         btnUpdate.setFont(new Font("Arial Rounded MT", Font.PLAIN, 22));
         btnUpdate.setForeground(new Color(255, 255, 255));
         btnUpdate.setBackground(new Color(0, 103, 184));
-//        btnUpdate.setBounds(50,50,200,30);
+        btnUpdate.addActionListener(bookActionListener);
         this.add(btnUpdate);
 
         /* Button 3 : Delete */
@@ -49,7 +49,7 @@ public class OperationButtonPanel extends JPanel {
         btnDelete.setFont(new Font("Arial Rounded MT", Font.PLAIN, 22));
         btnDelete.setForeground(new Color(255, 255, 255));
         btnDelete.setBackground(new Color(0, 103, 184));
-//        btnDelete.setBounds(50,50,200,30);
+        btnDelete.addActionListener(bookActionListener);
         this.add(btnDelete);
 
         /* Button 4 : Clear */
@@ -58,9 +58,8 @@ public class OperationButtonPanel extends JPanel {
         btnCancel.setFont(new Font("Arial Rounded MT", Font.PLAIN, 22));
         btnCancel.setForeground(new Color(255, 255, 255));
         btnCancel.setBackground(new Color(0, 103, 184));
-//        btnCancel.setBounds(50,50,200,30);
+        btnCancel.addActionListener(bookActionListener);
         this.add(btnCancel);
-
 
     }
 
