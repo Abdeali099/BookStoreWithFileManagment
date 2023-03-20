@@ -10,6 +10,5 @@ public interface OperationsOnBookData {
     ArrayList<BookDataClass> updateBook(int bookId);
     ArrayList<BookDataClass> deleteBook(int bookId);
     BookDataClass searchBook(int bookId);
-
-
+    String fetchBookCover();
 }

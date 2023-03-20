@@ -25,9 +25,9 @@ public class AddBookPanel extends JPanel {
     public JButton btnCalender;
 
     /* Button Panel*/
-    OperationButtonPanel operationButtonPanel;
+    public OperationButtonPanel operationButtonPanel;
     /* Image Panel*/
-    BookCover bookCover;
+    public BookCover bookCover;
 
     public AddBookPanel(BookStore mainContainer) {
         this.mainContainer = mainContainer;

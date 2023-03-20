@@ -4,36 +4,59 @@ import Backend.Controller.PerformedOperation;
 import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class BookActionListener implements ActionListener {
 
+    /* main frame */
     public BookStore bookStore;
+    /* Operation On Book (as a Controller)*/
     private PerformedOperation performedOperation;
+    /* Data of Book */
+     private BookDataClass bookDataClass;
+    /* ArrayList for data of Book*/
     private ArrayList<BookDataClass> bookDataClassArrayList;
-   private BookDataClass bookDataClass;
+
     public BookActionListener(BookStore bookStore) {
         this.bookStore = bookStore;
-
-        /* Taking data from field text and store in BookDataClass */
-
-         bookDataClass=new BookDataClass();
+        bookDataClass=new BookDataClass();
         performedOperation=new PerformedOperation();
-
-        /* commiting */
-//        try {
-////            bookStore.addBookPanel.spBookPrice.commitEdit();
-////            bookStore.addBookPanel.spBookQuantity.commitEdit();
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-
     }
+
     @Override
     public void actionPerformed(ActionEvent event) {
 
+        String opeartionHappen=event.getActionCommand();
+
+        if (opeartionHappen.equals("Add")) {
+              doAddOperation();
+        }
+        else if (opeartionHappen.equals("Cover")) {
+            browseCover();
+        }
+
+    }
+
+    private void browseCover() {
+
+        /* Taking path */
+        String pathOfBookCover=performedOperation.fetchBookCover();
+
+        /* Taking reference from Frame*/
+        JLabel bookCoverImage=bookStore.addBookPanel.bookCover.bookCoverImage;
+
+        /* Setting Cover on Frame */
+        ImageIcon bookCoverIcon = new ImageIcon(pathOfBookCover);
+        Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
+        bookCoverImage.setIcon(new ImageIcon(img));
+
+    }
+
+    private void doAddOperation() {
         bookDataClass.setBookId(Integer.parseInt(bookStore.addBookPanel.tfBookID.getText()));
         bookDataClass.setBookName(bookStore.addBookPanel.tfBookName.getText());
         bookDataClass.setBookSubject(bookStore.addBookPanel.tfBookSubject.getText());

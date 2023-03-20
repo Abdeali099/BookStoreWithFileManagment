@@ -1,5 +1,6 @@
 package Backend.Controller;
 
+import Backend.FileManagment.FetchBookCoverByFile;
 import Backend.Modal.BookDataClass;
 
 import java.util.ArrayList;
@@ -27,5 +28,10 @@ public class PerformedOperation implements OperationsOnBookData{
     @Override
     public BookDataClass searchBook(int bookId) {
         return null;
+    }
+
+    @Override
+    public String fetchBookCover() {
+       return FetchBookCoverByFile.fetchBookCoverFromDevice();
     }
 }
