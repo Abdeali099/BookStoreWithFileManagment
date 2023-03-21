@@ -1,5 +1,6 @@
 package Frontend;
 
+import Backend.Listener.BookActionListener;
 import Frontend.BooksPanel.AddBookPanel.*;
 import Frontend.BooksPanel.AvialableBook.*;
 import Frontend.BooksPanel.FilterBookPanel.*;
@@ -98,6 +99,17 @@ public class BookStore extends JFrame {
         bookTable.setBackground(new Color(240, 240, 140, 185));
         bookTable.setForeground(new Color(25, 0, 0));
         mainPanel.add(bookTable);
+
+        /* Here I am Adding Logical Code (which is not suitable)
+         * What ? : Fetched all Data from file whenever New Window  / Program starts
+         *  */
+
+        try {
+            BookActionListener fetchData =new BookActionListener(this);
+            fetchData.FetchAllBooks();
+        } catch (Exception e) {
+            System.out.println("Error  at Fetching from frontend : " + e.getMessage());
+        }
 
         /* Temporary closing event */
         setDefaultCloseOperation(EXIT_ON_CLOSE);

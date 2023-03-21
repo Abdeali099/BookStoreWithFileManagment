@@ -1,6 +1,7 @@
 package Backend.Listener;
 
 import Backend.Controller.PerformOperationOnBookData;
+import Backend.FileManagment.ReadBookFromFile;
 import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
 
@@ -20,7 +21,7 @@ public class BookActionListener implements ActionListener {
     /* Data of Book */
      private BookDataClass bookDataClass;
     /* ArrayList for data of Book*/
-    public ArrayList<BookDataClass> bookDataClassArrayList;
+    public static ArrayList<BookDataClass> bookDataClassArrayList;
     public static int NumberOfBookAdded;
 
     /* Actual data of Book Data (Modal) */
@@ -175,4 +176,51 @@ public class BookActionListener implements ActionListener {
 
     }
 
-}
+    public void FetchAllBooks(){
+
+        try {
+
+            bookDataClassArrayList = ReadBookFromFile.fetchAllStoredDataFromFile();
+
+            /* <--- Adding it to JTable Row ---> */
+
+            /* Referencing Table Modal */
+            DefaultTableModel tableModel = bookStore.bookTable.defaultTableModel;
+
+            /* Referencing a Tabel */
+
+            bookDataClassArrayList.forEach(bookDataClass -> {
+
+                bookId = bookDataClass.getBookId();
+
+                bookName = bookDataClass.getBookName();
+
+                bookSubject = bookDataClass.getBookSubject();
+
+                authorName = bookDataClass.getAuthorName();
+
+                publication = bookDataClass.getPublication();
+
+                dateOfPublication = bookDataClass.getDateOfPublication();
+
+                bookPrice = bookDataClass.getBookPrice();
+
+                bookQuantity = bookDataClass.getBookQuantity();
+
+                totalCost = bookDataClass.getTotalCost();
+
+                bookCoverPath = bookDataClass.getBookCoverPath();
+
+
+                Object[] dataOfRow = {bookId, bookName, bookSubject, authorName, publication, dateOfPublication, bookPrice, bookQuantity, totalCost, bookCoverPath};
+
+                tableModel.addRow(dataOfRow);
+            });
+
+        } catch (Exception e) {
+            System.out.println("Error  at Fetching data Listener : " + e.getMessage());
+        }//catch close
+
+ }// method close
+
+} // class close

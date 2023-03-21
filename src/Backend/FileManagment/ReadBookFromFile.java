@@ -5,34 +5,37 @@ import Backend.Modal.BookDataClass;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 public class ReadBookFromFile {
 
-    private static final String dataFilePath="src\\Data\\AllBooksData.dat";
+    private static final String dataFilePath = "src\\Data\\AllBooksData.dat";
+    private static ArrayList<BookDataClass> arrayListBookDataClass;
 
-
-    public static void main(String[] args) {
+    public static ArrayList<BookDataClass> fetchAllStoredDataFromFile() {
 
         try {
-            FileInputStream fis=new FileInputStream("src\\Data\\AllBooksData.dat");
+            FileInputStream fis = new FileInputStream("src\\Data\\AllBooksData.dat");
             ObjectInputStream readBookDataFromFile = new ObjectInputStream(fis);
-            BookDataClass bookDataClass=new BookDataClass();
+            BookDataClass bookDataClass = new BookDataClass();
+            arrayListBookDataClass=new ArrayList<>();
 
-        while(fis.available() != 0){
+            while (fis.available() != 0) {
 
-            bookDataClass=(BookDataClass) readBookDataFromFile.readObject();
+                bookDataClass = (BookDataClass) readBookDataFromFile.readObject();
 
-            System.out.println(bookDataClass);
-        }
+                arrayListBookDataClass.add(bookDataClass);
 
-        fis.close();
-        readBookDataFromFile.close();
+                System.out.println(bookDataClass);
+            }
 
-        }catch (EOFException eof){}
-        catch (Exception e) {
+            fis.close();
+            readBookDataFromFile.close();
+
+        } catch (EOFException ignored) {
+        } catch (Exception e) {
             System.out.println("Error in reading  file : " + e + " Msg : " + e.getMessage());
         }
-
+        return arrayListBookDataClass;
     }
-
 }

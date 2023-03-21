@@ -4,6 +4,8 @@ import Backend.FileManagment.AddBookFromFile;
 import Backend.FileManagment.FetchBookCoverByFile;
 import Backend.Modal.BookDataClass;
 
+import java.util.ArrayList;
+
 public class PerformOperationOnBookData implements OperationsOnBookData{
 
 
@@ -36,9 +38,20 @@ public class PerformOperationOnBookData implements OperationsOnBookData{
 //    public BookDataClass searchBook(int bookId) {
 //        int i=0;
 //    }
-
     @Override
     public String fetchBookCover() {
        return FetchBookCoverByFile.fetchBookCoverFromDevice();
     }
+
+
+    @Override
+    public ArrayList<BookDataClass> fetchAllStoredData() {
+
+        ArrayList<BookDataClass> arrayListBookDataClass=new ArrayList<>();
+
+
+
+        return arrayListBookDataClass;
+    }
+
 }
