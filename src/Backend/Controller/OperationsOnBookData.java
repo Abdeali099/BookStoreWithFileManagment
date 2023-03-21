@@ -2,13 +2,11 @@ package Backend.Controller;
 
 import Backend.Modal.BookDataClass;
 
-import java.util.ArrayList;
-
 public interface OperationsOnBookData {
 
-    ArrayList<BookDataClass> AddBook(BookDataClass bookDataClass);
-    ArrayList<BookDataClass> updateBook(int bookId);
-    ArrayList<BookDataClass> deleteBook(int bookId);
-    BookDataClass searchBook(int bookId);
+    void AddBook(BookDataClass bookDataClass);
+    void updateBook(int bookId);
+    void deleteBook(int bookId);
+//    BookDataClass searchBook(int bookId);
     String fetchBookCover();
 }

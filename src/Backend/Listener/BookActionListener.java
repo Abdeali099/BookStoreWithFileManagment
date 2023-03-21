@@ -1,6 +1,6 @@
 package Backend.Listener;
 
-import Backend.Controller.PerformedOperation;
+import Backend.Controller.PerformOperationOnBookData;
 import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
 
@@ -15,16 +15,20 @@ public class BookActionListener implements ActionListener {
     /* main frame */
     public BookStore bookStore;
     /* Operation On Book (as a Controller)*/
-    private final PerformedOperation performedOperation;
+    private final PerformOperationOnBookData performOperationOnBookData;
     /* Data of Book */
-     private final BookDataClass bookDataClass;
+     private BookDataClass bookDataClass;
     /* ArrayList for data of Book*/
     public ArrayList<BookDataClass> bookDataClassArrayList;
 
+    /* Actual data of Book Data (Modal) */
+    private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
+    private String bookName,bookSubject,authorName,dateOfPublication,publication,bookCoverPath="src\\assets\\byDefaultCover.jpg";
+
     public BookActionListener(BookStore bookStore) {
         this.bookStore = bookStore;
-        bookDataClass=new BookDataClass();
-        performedOperation=new PerformedOperation();
+        performOperationOnBookData =new PerformOperationOnBookData();
+        bookDataClassArrayList=new ArrayList<>();
     }
 
     @Override
@@ -43,21 +47,56 @@ public class BookActionListener implements ActionListener {
     }
 
     private void doAddOperation() {
-        bookDataClass.setBookId(Integer.parseInt(bookStore.addBookPanel.tfBookID.getText()));
-        bookDataClass.setBookName(bookStore.addBookPanel.tfBookName.getText());
-        bookDataClass.setBookSubject(bookStore.addBookPanel.tfBookSubject.getText());
-        bookDataClass.setAuthorName(bookStore.addBookPanel.tfAuthorName.getText());
-        bookDataClass.setPublication(bookStore.addBookPanel.tfPublication.getText());
-        bookDataClass.setDateOfPublication(bookStore.addBookPanel.tfDatePublication.getText());
-        int bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
+
+        System.out.println("1) I am in doAddOperation");
+
+        bookDataClass=new BookDataClass();
+
+        bookId=Integer.parseInt(bookStore.addBookPanel.tfBookID.getText());
+        bookDataClass.setBookId(bookId);
+
+        bookName=bookStore.addBookPanel.tfBookName.getText();
+        bookDataClass.setBookName(bookName);
+
+        bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
+        bookDataClass.setBookSubject(bookSubject);
+
+        authorName=bookStore.addBookPanel.tfAuthorName.getText();
+        bookDataClass.setAuthorName(authorName);
+
+        publication=bookStore.addBookPanel.tfPublication.getText();
+        bookDataClass.setPublication(publication);
+
+        dateOfPublication=bookStore.addBookPanel.tfDatePublication.getText();
+        bookDataClass.setDateOfPublication(dateOfPublication);
+
+        bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
         bookDataClass.setBookPrice(bookPrice);
-        int bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
+
+        bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
         bookDataClass.setBookQuantity(bookQuantity);
-        bookDataClass.setTotalCost(bookPrice*bookQuantity);
 
-        bookDataClassArrayList=performedOperation.AddBook(bookDataClass);
+        totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
+        bookDataClass.setTotalCost(totalCost);
 
-        bookDataClassArrayList.forEach(student -> System.out.println(student));
+        bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
+        bookDataClass.setBookCoverPath(bookCoverPath);
+
+        /* I have to Add This at 2 Place
+         *
+         * 1) In File : By File Management (Cause every time Adding ArrayList is not Good (It is on Controller side)
+         * 2) In ArrayList : to do Easy Operation
+         * */
+
+        try {
+            /* Add in ArrayList */
+            bookDataClassArrayList.add(bookDataClass);
+
+            /* send to controller*/
+            performOperationOnBookData.AddBook(bookDataClass);
+        } catch (Exception e) {
+            System.out.println("Error  at listener Add : " + e.getMessage());
+        }
     }
 
     private void doUpdateOperation() {
@@ -72,7 +111,10 @@ public class BookActionListener implements ActionListener {
     private void browseCover() {
 
         /* Taking path */
-        String pathOfBookCover=performedOperation.fetchBookCover();
+        String pathOfBookCover= performOperationOnBookData.fetchBookCover();
+
+        /* Updating in frontend so Take value when adding */
+        bookStore.addBookPanel.bookCover.bookCoverPath=pathOfBookCover;
 
         /* Taking reference from Frame*/
         JLabel bookCoverImage=bookStore.addBookPanel.bookCover.bookCoverImage;

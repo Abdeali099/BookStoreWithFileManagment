@@ -21,6 +21,7 @@ public class BookCover extends JPanel {
 
    /* For Book Cover path */
     public String bookCoverPath="src\\assets\\byDefaultCover.jpg";
+    public ImageIcon iconBookCover;
 
     BookCover(BookStore mainContainer) {
         this.mainContainer = mainContainer;
@@ -28,9 +29,9 @@ public class BookCover extends JPanel {
 
         bookCoverImage = new JLabel();
         bookCoverImage.setBounds(80, 20, 200, 250);
-        ImageIcon test = new ImageIcon(bookCoverPath);
-        Image img = test.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
-        bookCoverImage.setIcon(new ImageIcon(img));
+        iconBookCover = new ImageIcon(bookCoverPath);
+        Image imgBookCover = iconBookCover.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
+        bookCoverImage.setIcon(new ImageIcon(imgBookCover));
         this.add(bookCoverImage);
 
         ImageIcon browseIcon = new ImageIcon("src\\assets\\browseIcon.png");

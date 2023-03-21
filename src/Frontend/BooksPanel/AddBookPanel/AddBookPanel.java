@@ -53,7 +53,7 @@ public class AddBookPanel extends JPanel {
         tfBookID = new JTextField();
         tfBookID.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookID.setBounds(190, 20, 320, 30);
-        tfBookID.setToolTipText("Eg. 101");
+//        tfBookID.setToolTipText("Eg. 101");
         this.add(tfBookID);
 
         /* Input 2 : Book Name */
@@ -67,7 +67,7 @@ public class AddBookPanel extends JPanel {
         tfBookName = new JTextField();
         tfBookName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookName.setBounds(710, 20, 320, 30);
-        tfBookName.setToolTipText("Eg. Modern Operating System");
+//        tfBookName.setToolTipText("Eg. Modern Operating System");
         this.add(tfBookName);
 
         /* Input 3 : Book Subject */
@@ -80,7 +80,7 @@ public class AddBookPanel extends JPanel {
         tfBookSubject = new JTextField();
         tfBookSubject.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookSubject.setBounds(190, 90, 320, 30);
-        tfBookSubject.setToolTipText("Eg. Operating System");
+//        tfBookSubject.setToolTipText("Eg. Operating System");
         this.add(tfBookSubject);
 
 
@@ -94,7 +94,7 @@ public class AddBookPanel extends JPanel {
         tfAuthorName = new JTextField();
         tfAuthorName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfAuthorName.setBounds(710, 90, 320, 30);
-        tfAuthorName.setToolTipText("Eg. Andrew Tanenbum");
+//        tfAuthorName.setToolTipText("Eg. Andrew Tanenbum");
         this.add(tfAuthorName);
 
         /* Input 5 : publication */
@@ -107,7 +107,7 @@ public class AddBookPanel extends JPanel {
         tfPublication = new JTextField();
         tfPublication.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfPublication.setBounds(190, 160, 320, 30);
-        tfPublication.setToolTipText("Eg. Matrix ");
+//        tfPublication.setToolTipText("Eg. Matrix ");
         this.add(tfPublication);
 
         /* Input 6 : Date of Publication */
@@ -120,7 +120,7 @@ public class AddBookPanel extends JPanel {
         tfDatePublication = new JTextField();
         tfDatePublication.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfDatePublication.setBounds(710, 160, 285, 30);
-        tfDatePublication.setToolTipText("Eg. 30-01-2002");
+//        tfDatePublication.setToolTipText("Eg. 30-01-2002");
         this.add(tfDatePublication);
 
         calenderIcon = new ImageIcon("src\\assets\\calenderIcon.png");

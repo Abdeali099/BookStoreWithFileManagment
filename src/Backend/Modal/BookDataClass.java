@@ -1,8 +1,10 @@
 package Backend.Modal;
 
 
+import java.io.Serializable;
+
 /* This is basic POJO class for Book*/
-public class BookDataClass {
+public class BookDataClass implements Serializable {
 
     /* Defining All Attributes */
 
