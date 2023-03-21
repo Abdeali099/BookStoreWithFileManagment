@@ -7,6 +7,12 @@ import com.raven.datechooser.DateChooser;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatter;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /* It is a Form (Operation)  Frame */
 public class AddBookPanel extends JPanel {
@@ -32,14 +38,22 @@ public class AddBookPanel extends JPanel {
     public BookCover bookCover;
 
     /* Integer for book Price,Quantity,TotalCost*/
-    int IntBookPrice=200,IntBookQuantity=1,IntBookTotalCost=IntBookPrice*IntBookQuantity;
+    int IntBookPrice = 200, IntBookQuantity = 1, IntBookTotalCost = IntBookPrice * IntBookQuantity;
+
+    /* For RegEx*/
+    boolean flagChar;
 
     public AddBookPanel(BookStore mainContainer) {
         this.mainContainer = mainContainer;
 
-
-        /* Intialize Listener */
+        /* Initialize Listener */
         bookActionListener = new BookActionListener(mainContainer);
+
+        /* ---  For RegEx ---  */
+          flagChar = false;
+
+        /* For Int : ID */
+        String regExOfID = "[1-9][0-9]{2,}";
 
         /* Step : Adding Label - TextField */
 
@@ -50,11 +64,63 @@ public class AddBookPanel extends JPanel {
         lbBookID.setBounds(80, 20, 100, 35);
         this.add(lbBookID);
 
+        /* Trying to add Formatted Text Field */
+       /* NumberFormat longFormat = NumberFormat.getIntegerInstance();
+        NumberFormatter numberFormatter = new NumberFormatter(longFormat);
+        numberFormatter.setAllowsInvalid(false); //this is the key!!
+        JFormattedTextField tfBookID = new JFormattedTextField(numberFormatter);*/
+
         tfBookID = new JTextField();
         tfBookID.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookID.setBounds(190, 20, 320, 30);
-//        tfBookID.setToolTipText("Eg. 101");
         this.add(tfBookID);
+
+        /* In frontend, I am adding Validation (Not Recommended) (ID RegEx is not working properly ) */
+        tfBookID.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+
+                /* Checking Pattern */
+                Pattern pattern = Pattern.compile(regExOfID);
+                String Id = tfBookID.getText();
+                Matcher matcher = pattern.matcher(Id);
+
+                if (!matcher.matches()) {
+                    JOptionPane optionPane = new JOptionPane("Id have only digit with minimum length 3", JOptionPane.ERROR_MESSAGE);
+                    JDialog dialog = optionPane.createDialog("Error!");
+                    dialog.setAlwaysOnTop(true); // to show top of all other application
+                    dialog.setVisible(true); // to visible the dialog
+
+                    tfBookID.setFocusable(true);
+                }
+            }
+
+        });
+
+        tfBookID.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent typedEvent) {
+
+                char keyChar = typedEvent.getKeyChar();
+
+                if (flagChar) {
+                    String Id = tfBookID.getText();
+                    Id = Id.substring(0, Id.length() - 1);
+                    tfBookID.setText(Id);
+                    flagChar=false;
+                }
+
+                if (!(keyChar >= 48 && keyChar <= 57) && !(keyChar==8 || keyChar==127)) {
+                    JOptionPane optionPane = new JOptionPane("ID can only be a number", JOptionPane.ERROR_MESSAGE);
+                    JDialog dialog = optionPane.createDialog("Error!");
+                    dialog.setAlwaysOnTop(true); // to show top of all other application
+                    dialog.setVisible(true); // to visible the dialog
+                    flagChar = true;
+                }
+
+            }
+
+        });
 
         /* Input 2 : Book Name */
 
@@ -67,7 +133,6 @@ public class AddBookPanel extends JPanel {
         tfBookName = new JTextField();
         tfBookName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookName.setBounds(710, 20, 320, 30);
-//        tfBookName.setToolTipText("Eg. Modern Operating System");
         this.add(tfBookName);
 
         /* Input 3 : Book Subject */
@@ -80,7 +145,6 @@ public class AddBookPanel extends JPanel {
         tfBookSubject = new JTextField();
         tfBookSubject.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookSubject.setBounds(190, 90, 320, 30);
-//        tfBookSubject.setToolTipText("Eg. Operating System");
         this.add(tfBookSubject);
 
 
@@ -94,7 +158,6 @@ public class AddBookPanel extends JPanel {
         tfAuthorName = new JTextField();
         tfAuthorName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfAuthorName.setBounds(710, 90, 320, 30);
-//        tfAuthorName.setToolTipText("Eg. Andrew Tanenbum");
         this.add(tfAuthorName);
 
         /* Input 5 : publication */
@@ -107,7 +170,6 @@ public class AddBookPanel extends JPanel {
         tfPublication = new JTextField();
         tfPublication.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfPublication.setBounds(190, 160, 320, 30);
-//        tfPublication.setToolTipText("Eg. Matrix ");
         this.add(tfPublication);
 
         /* Input 6 : Date of Publication */
@@ -120,7 +182,6 @@ public class AddBookPanel extends JPanel {
         tfDatePublication = new JTextField();
         tfDatePublication.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfDatePublication.setBounds(710, 160, 285, 30);
-//        tfDatePublication.setToolTipText("Eg. 30-01-2002");
         this.add(tfDatePublication);
 
         calenderIcon = new ImageIcon("src\\assets\\calenderIcon.png");
@@ -148,7 +209,7 @@ public class AddBookPanel extends JPanel {
         lbBookPrice.setBounds(50, 240, 250, 35);
         this.add(lbBookPrice);
 
-        valueOfPrice = new SpinnerNumberModel(200, 200, 1500, 1);
+        valueOfPrice = new SpinnerNumberModel(200, 200, 1500, 50);
         spBookPrice = new JSpinner(valueOfPrice);
         spBookPrice.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         spBookPrice.setBounds(150, 240, 100, 30);
@@ -197,19 +258,19 @@ public class AddBookPanel extends JPanel {
         try {
             spBookPrice.addChangeListener(event -> {
 
-                IntBookPrice= (int) spBookPrice.getValue();
-                IntBookTotalCost=IntBookPrice*IntBookQuantity;
-                tfTotalCost.setText(""+IntBookTotalCost);
+                IntBookPrice = (int) spBookPrice.getValue();
+                IntBookTotalCost = IntBookPrice * IntBookQuantity;
+                tfTotalCost.setText("" + IntBookTotalCost);
 
             });
             spBookQuantity.addChangeListener(event -> {
 
-                IntBookQuantity= (int) spBookQuantity.getValue();
-                IntBookTotalCost=IntBookPrice*IntBookQuantity;
-                tfTotalCost.setText(""+IntBookTotalCost);
+                IntBookQuantity = (int) spBookQuantity.getValue();
+                IntBookTotalCost = IntBookPrice * IntBookQuantity;
+                tfTotalCost.setText("" + IntBookTotalCost);
             });
         } catch (Exception e) {
-        System.out.println("Error In Change of total cost : " + e + " Msg : " + e.getMessage());
+            System.out.println("Error In Change of total cost : " + e + " Msg : " + e.getMessage());
         }
 
         /* Adding Button Panel */

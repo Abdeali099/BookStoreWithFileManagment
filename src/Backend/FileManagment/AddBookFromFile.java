@@ -6,16 +6,12 @@ import java.io.*;
 
 public class AddBookFromFile {
 
-//   ObjectOutputStream addBookInFile;
    private static File dataFile;
     private static final String dataFilePath="src\\Data\\AllBooksData.dat";
 
     public static void AddOneBookToFile(BookDataClass bookDataClass) {
 
         try {
-
-            System.out.println("3) I am in FileBook");
-
             dataFile = new File(dataFilePath);
 
             FileOutputStream fos=null;
