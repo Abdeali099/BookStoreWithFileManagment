@@ -4,6 +4,7 @@ import Backend.Controller.PerformOperationOnBookData;
 import Backend.FileManagment.ReadBookFromFile;
 import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
+import com.raven.datechooser.DateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -53,6 +54,13 @@ public class BookActionListener implements ActionListener {
     private void doAddOperation() {
 
         System.out.println("1) I am in doAddOperation");
+
+        /* Checking RegEx */
+        boolean shouldGoFurther=checkRegExOfField();
+
+        if (!shouldGoFurther) {
+            return;
+        }
 
         bookDataClass=new BookDataClass();
 
@@ -155,7 +163,8 @@ public class BookActionListener implements ActionListener {
 
         bookStore.addBookPanel.tfPublication.setText("");
 
-        bookStore.addBookPanel.tfDatePublication.setText("");
+        DateChooser dateChooser = bookStore.addBookPanel.dateChooser;
+        dateChooser.setTextRefernce(bookStore.addBookPanel.tfDatePublication);
 
         bookStore.addBookPanel.spBookPrice.setValue(200);
 
@@ -182,6 +191,9 @@ public class BookActionListener implements ActionListener {
 
             bookDataClassArrayList = ReadBookFromFile.fetchAllStoredDataFromFile();
 
+            if (bookDataClassArrayList.isEmpty()) {
+                return;
+            }
             /* <--- Adding it to JTable Row ---> */
 
             /* Referencing Table Modal */
@@ -222,5 +234,40 @@ public class BookActionListener implements ActionListener {
         }//catch close
 
  }// method close
+
+    public boolean checkRegExOfField() {
+
+        try {
+
+        } catch (Exception e) {
+
+        }
+
+        bookId=Integer.parseInt(bookStore.addBookPanel.tfBookID.getText());
+
+        bookName=bookStore.addBookPanel.tfBookName.getText();
+
+        bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
+
+        authorName=bookStore.addBookPanel.tfAuthorName.getText();
+
+        publication=bookStore.addBookPanel.tfPublication.getText();
+
+        dateOfPublication=bookStore.addBookPanel.tfDatePublication.getText();
+
+        bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
+
+        bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
+
+        totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
+        bookDataClass.setTotalCost(totalCost);
+
+        bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
+        bookDataClass.setBookCoverPath(bookCoverPath);
+
+        return true;
+    }
+
+
 
 } // class close
