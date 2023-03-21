@@ -5,6 +5,7 @@ import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ public class BookActionListener implements ActionListener {
      private BookDataClass bookDataClass;
     /* ArrayList for data of Book*/
     public ArrayList<BookDataClass> bookDataClassArrayList;
+    public static int NumberOfBookAdded;
 
     /* Actual data of Book Data (Modal) */
     private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
@@ -29,6 +31,7 @@ public class BookActionListener implements ActionListener {
         this.bookStore = bookStore;
         performOperationOnBookData =new PerformOperationOnBookData();
         bookDataClassArrayList=new ArrayList<>();
+        NumberOfBookAdded=0;
     }
 
     @Override
@@ -86,6 +89,7 @@ public class BookActionListener implements ActionListener {
          *
          * 1) In File : By File Management (Cause every time Adding ArrayList is not Good (It is on Controller side)
          * 2) In ArrayList : to do Easy Operation
+         * 3) Adding data in Table Row.
          * */
 
         try {
@@ -94,9 +98,21 @@ public class BookActionListener implements ActionListener {
 
             /* send to controller*/
             performOperationOnBookData.AddBook(bookDataClass);
+
+            /* <--- Adding it to JTable Row ---> */
+            /* Referencing Table Modal */
+            DefaultTableModel tableModel=bookStore.bookTable.defaultTableModel;
+
+            Object[] dataOfRow = {bookId,bookName,bookSubject,authorName,publication,dateOfPublication,bookPrice,bookQuantity,totalCost,bookCoverPath};
+
+            tableModel.addRow(dataOfRow);
+
         } catch (Exception e) {
             System.out.println("Error  at listener Add : " + e.getMessage());
         }
+
+        clearInputFields();
+
     }
 
     private void doUpdateOperation() {
@@ -125,4 +141,38 @@ public class BookActionListener implements ActionListener {
         bookCoverImage.setIcon(new ImageIcon(img));
 
     }
+
+    private void clearInputFields() {
+
+        bookStore.addBookPanel.tfBookID.setText("");
+
+        bookStore.addBookPanel.tfBookName.setText("");
+
+        bookStore.addBookPanel.tfBookSubject.setText("");
+
+        bookStore.addBookPanel.tfAuthorName.setText("");
+
+        bookStore.addBookPanel.tfPublication.setText("");
+
+        bookStore.addBookPanel.tfDatePublication.setText("");
+
+        bookStore.addBookPanel.spBookPrice.setValue(200);
+
+        bookStore.addBookPanel.spBookQuantity.setValue(1);
+
+        bookStore.addBookPanel.tfTotalCost.setText("200");
+
+        bookStore.addBookPanel.bookCover.bookCoverPath="src\\assets\\byDefaultCover.jpg";
+
+
+        /* Taking reference from Frame*/
+        JLabel bookCoverImage=bookStore.addBookPanel.bookCover.bookCoverImage;
+
+        /* Setting Cover on Frame */
+        ImageIcon bookCoverIcon = new ImageIcon("src\\assets\\byDefaultCover.jpg");
+        Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
+        bookCoverImage.setIcon(new ImageIcon(img));
+
+    }
+
 }
