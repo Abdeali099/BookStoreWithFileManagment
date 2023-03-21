@@ -239,32 +239,32 @@ public class BookActionListener implements ActionListener {
 
         try {
 
+            bookId=Integer.parseInt(bookStore.addBookPanel.tfBookID.getText());
+
+            bookName=bookStore.addBookPanel.tfBookName.getText();
+
+            bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
+
+            authorName=bookStore.addBookPanel.tfAuthorName.getText();
+
+            publication=bookStore.addBookPanel.tfPublication.getText();
+
+            dateOfPublication=bookStore.addBookPanel.tfDatePublication.getText();
+
+            bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
+
+            bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
+
+            totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
+
+            bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
+
         } catch (Exception e) {
 
+            JOptionPane.showMessageDialog(null,"Some Inputs are not Proper","Alert",JOptionPane.WARNING_MESSAGE);
+            System.out.println("Error in Regex : " + e + " Msg : " + e.getMessage());
+            return false;
         }
-
-        bookId=Integer.parseInt(bookStore.addBookPanel.tfBookID.getText());
-
-        bookName=bookStore.addBookPanel.tfBookName.getText();
-
-        bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
-
-        authorName=bookStore.addBookPanel.tfAuthorName.getText();
-
-        publication=bookStore.addBookPanel.tfPublication.getText();
-
-        dateOfPublication=bookStore.addBookPanel.tfDatePublication.getText();
-
-        bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
-
-        bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
-
-        totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
-        bookDataClass.setTotalCost(totalCost);
-
-        bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
-        bookDataClass.setBookCoverPath(bookCoverPath);
-
         return true;
     }
 

@@ -1,7 +1,7 @@
 package Frontend.BooksPanel.AvialableBook;
 
-import Backend.Listener.BookActionListener;
 import Frontend.BookStore;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,9 +42,6 @@ public class BookTable extends JPanel {
 
         this.add(jspBookTable);
         validate();
-
-
-
     }
 
 }
