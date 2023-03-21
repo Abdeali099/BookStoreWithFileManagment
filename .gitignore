@@ -1,2 +1,4 @@
 .idea/
 BookStore.iml
+Data/allBookData.dat
+*.dat
