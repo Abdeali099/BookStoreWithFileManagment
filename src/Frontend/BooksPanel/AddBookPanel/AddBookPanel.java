@@ -80,20 +80,26 @@ public class AddBookPanel extends JPanel {
             @Override
             public void focusLost(FocusEvent focusEvent) {
 
-                /* Checking Pattern */
-                Pattern pattern = Pattern.compile(regExOfID);
-                String Id = tfBookID.getText();
-                Matcher matcher = pattern.matcher(Id);
+                try {
+                    /* Checking Pattern */
+                    Pattern pattern = Pattern.compile(regExOfID);
+                    String Id = tfBookID.getText();
+                    Matcher matcher = pattern.matcher(Id);
 
-                if (!matcher.matches()) {
-                    JOptionPane optionPane = new JOptionPane("Id have only digit with minimum length 3", JOptionPane.ERROR_MESSAGE);
-                    JDialog dialog = optionPane.createDialog("Error!");
-                    dialog.setAlwaysOnTop(true); // to show top of all other application
-                    dialog.setVisible(true); // to visible the dialog
+                    if (!matcher.matches()) {
+                        JOptionPane optionPane = new JOptionPane("Id have only digit with minimum length 3", JOptionPane.ERROR_MESSAGE);
+                        JDialog dialog = optionPane.createDialog("Error!");
+                        dialog.setAlwaysOnTop(true); // to show top of all other application
+                        dialog.setVisible(true); // to visible the dialog
 
-                    tfBookID.setFocusable(true);
+                        tfBookID.setFocusable(true);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error in Id regEx (Focused) : "+e);
                 }
             }
+
+
 
         });
 
@@ -101,23 +107,28 @@ public class AddBookPanel extends JPanel {
             @Override
             public void keyTyped(KeyEvent typedEvent) {
 
-                char keyChar = typedEvent.getKeyChar();
+                try{
 
-                if (flagChar) {
-                    String Id = tfBookID.getText();
-                    Id = Id.substring(0, Id.length() - 1);
-                    tfBookID.setText(Id);
-                    flagChar=false;
+                    char keyChar = typedEvent.getKeyChar();
+
+                    if (flagChar) {
+                        String Id = tfBookID.getText();
+                        Id = Id.substring(0, Id.length() - 1);
+                        tfBookID.setText(Id);
+                        flagChar=false;
+                    }
+
+                    if (!(keyChar >= 48 && keyChar <= 57) && !(keyChar==8 || keyChar==127)) {
+                        JOptionPane optionPane = new JOptionPane("ID can only be a number", JOptionPane.ERROR_MESSAGE);
+                        JDialog dialog = optionPane.createDialog("Error!");
+                        dialog.setAlwaysOnTop(true); // to show top of all other application
+                        dialog.setVisible(true); // to visible the dialog
+                        flagChar = true;
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Error in Id regEx (Typed) : "+e);
                 }
-
-                if (!(keyChar >= 48 && keyChar <= 57) && !(keyChar==8 || keyChar==127)) {
-                    JOptionPane optionPane = new JOptionPane("ID can only be a number", JOptionPane.ERROR_MESSAGE);
-                    JDialog dialog = optionPane.createDialog("Error!");
-                    dialog.setAlwaysOnTop(true); // to show top of all other application
-                    dialog.setVisible(true); // to visible the dialog
-                    flagChar = true;
-                }
-
             }
 
         });

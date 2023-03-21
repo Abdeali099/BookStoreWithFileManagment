@@ -24,6 +24,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BookActionListener implements ActionListener {
 
@@ -270,9 +272,36 @@ public class BookActionListener implements ActionListener {
 
             bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
 
+            /* Checking if any contain null or empty */
+            if (bookId < 100 || bookName.isEmpty() || bookSubject.isEmpty() || authorName.isEmpty() || publication.isEmpty() || dateOfPublication.isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Some Inputs are not Proper","Alert",JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+
+
+            /* For String (No digit) : Other fields */
+            String regExForString = "[a-zA-Z]+";
+            Pattern pattern=Pattern.compile(regExForString);
+            Matcher matcher=null;
+
+            String[] listForRegEx={bookName,bookSubject,authorName,publication};
+
+            for (String forRegEx : listForRegEx) {
+
+                matcher=pattern.matcher(forRegEx);
+
+                System.out.println("Match? : " + matcher.matches());
+
+                if (!matcher.matches()) {
+                    JOptionPane.showMessageDialog(null,"Can't have digit in String input","Error",JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+
+            }
+
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null,"Some Inputs are not Proper","Alert",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Some Inputs are not Proper","Error",JOptionPane.ERROR_MESSAGE);
             System.out.println("Error in Regex : " + e + " Msg : " + e.getMessage());
             return false;
         }
