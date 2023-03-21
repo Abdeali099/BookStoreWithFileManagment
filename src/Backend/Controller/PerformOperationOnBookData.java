@@ -1,13 +1,14 @@
+/* This controller will handle / call File classes */
 package Backend.Controller;
 
 import Backend.FileManagment.AddBookFromFile;
 import Backend.FileManagment.FetchBookCoverByFile;
+import Backend.FileManagment.ReadBookFromFile;
 import Backend.Modal.BookDataClass;
 
 import java.util.ArrayList;
 
 public class PerformOperationOnBookData implements OperationsOnBookData{
-
 
     @Override
     public void AddBook(BookDataClass bookDataClass) {
@@ -40,18 +41,12 @@ public class PerformOperationOnBookData implements OperationsOnBookData{
 //    }
     @Override
     public String fetchBookCover() {
-       return FetchBookCoverByFile.fetchBookCoverFromDevice();
+        return FetchBookCoverByFile.fetchBookCoverFromDevice();
     }
-
 
     @Override
     public ArrayList<BookDataClass> fetchAllStoredData() {
-
-        ArrayList<BookDataClass> arrayListBookDataClass=new ArrayList<>();
-
-
-
-        return arrayListBookDataClass;
+        return ReadBookFromFile.fetchAllStoredDataFromFile();
     }
 
 }

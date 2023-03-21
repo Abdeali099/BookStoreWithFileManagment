@@ -25,8 +25,6 @@ public class ReadBookFromFile {
                 bookDataClass = (BookDataClass) readBookDataFromFile.readObject();
 
                 arrayListBookDataClass.add(bookDataClass);
-
-                System.out.println(bookDataClass);
             }
 
             fis.close();

@@ -4,6 +4,7 @@ import Frontend.BookStore;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class BookTable extends JPanel {
 
@@ -11,18 +12,16 @@ public class BookTable extends JPanel {
     BookStore mainContainer;
 
     /* Component */
-//    String[][] data = {{"101", "abc", "OS", "Abdeali", "Mat", "25/12/2002", "200", "1", "200", "cover"}};
-    String[] column = {"ID", "BOOK NAME", "BOOK SUBJECT", "AUTHOR NAME", "PUBLICATION", "DATE", "PRICE", "QUANTITY", "TOTAL COST", "COVER"};
-
-//        defaultTableModel = new DefaultTableModel(column,0);
-
     public DefaultTableModel defaultTableModel;
-
     public JTable bookTable;
     JScrollPane jspBookTable;
 
+    /* Variables */
+    String[] column = {"ID", "BOOK NAME", "BOOK SUBJECT", "AUTHOR NAME", "PUBLICATION", "DATE", "PRICE", "QUANTITY", "TOTAL COST", "COVER"};
+
     public BookTable(BookStore mainContainer) {
         this.mainContainer = mainContainer;
+        this.setPreferredSize(new Dimension(1400,400));
 
         {
             defaultTableModel = new DefaultTableModel(column, 0) {

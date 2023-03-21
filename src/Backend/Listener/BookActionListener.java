@@ -1,7 +1,19 @@
+/* This Class is for Action Listener for Buttons
+*
+*  Operation in this  listener :
+*                              1) Add
+*                              2) Delete
+*                              3) Update
+*                              4) Cancel
+*                              5) Clear Field
+*                              6) Fetch all Previous store data
+*                              7) Fetch BookCover
+*
+*  This will provide or complete job by calling Controller "PerformOperationOnBookData".
+*  */
 package Backend.Listener;
 
 import Backend.Controller.PerformOperationOnBookData;
-import Backend.FileManagment.ReadBookFromFile;
 import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
 import com.raven.datechooser.DateChooser;
@@ -19,11 +31,10 @@ public class BookActionListener implements ActionListener {
     public BookStore bookStore;
     /* Operation On Book (as a Controller)*/
     private final PerformOperationOnBookData performOperationOnBookData;
-    /* Data of Book */
+    /* Data of Book (Modal) */
      private BookDataClass bookDataClass;
     /* ArrayList for data of Book*/
     public static ArrayList<BookDataClass> bookDataClassArrayList;
-    public static int NumberOfBookAdded;
 
     /* Actual data of Book Data (Modal) */
     private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
@@ -33,7 +44,6 @@ public class BookActionListener implements ActionListener {
         this.bookStore = bookStore;
         performOperationOnBookData =new PerformOperationOnBookData();
         bookDataClassArrayList=new ArrayList<>();
-        NumberOfBookAdded=0;
     }
 
     @Override
@@ -186,21 +196,22 @@ public class BookActionListener implements ActionListener {
     }
 
     public void FetchAllBooks(){
-
+                /* This method call from BookStore constructor only for one time */
         try {
 
-            bookDataClassArrayList = ReadBookFromFile.fetchAllStoredDataFromFile();
+            /* Taking data from Controller : Not direct calling File method */
+            bookDataClassArrayList = performOperationOnBookData.fetchAllStoredData();
 
             if (bookDataClassArrayList.isEmpty()) {
                 return;
             }
+
             /* <--- Adding it to JTable Row ---> */
 
             /* Referencing Table Modal */
             DefaultTableModel tableModel = bookStore.bookTable.defaultTableModel;
 
-            /* Referencing a Tabel */
-
+            /* mapping / Iterating arraylist */
             bookDataClassArrayList.forEach(bookDataClass -> {
 
                 bookId = bookDataClass.getBookId();
@@ -223,17 +234,17 @@ public class BookActionListener implements ActionListener {
 
                 bookCoverPath = bookDataClass.getBookCoverPath();
 
-
+                /* Making One Row */
                 Object[] dataOfRow = {bookId, bookName, bookSubject, authorName, publication, dateOfPublication, bookPrice, bookQuantity, totalCost, bookCoverPath};
 
+                /* Adding One Row */
                 tableModel.addRow(dataOfRow);
             });
 
         } catch (Exception e) {
             System.out.println("Error  at Fetching data Listener : " + e.getMessage());
         }//catch close
-
- }// method close
+    }
 
     public boolean checkRegExOfField() {
 

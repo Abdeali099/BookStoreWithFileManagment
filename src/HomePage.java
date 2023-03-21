@@ -1,4 +1,4 @@
-/* This Class Wake up main frontend page.*/
+/* This Class Wake up main frontend page and Backend . */
 
 import Frontend.BookStore;
 
