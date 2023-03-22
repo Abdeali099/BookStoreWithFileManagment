@@ -128,6 +128,14 @@ public class BookActionListener implements ActionListener {
     }
 
     private void doCancelOperation() {
+        /* Eventually it is clear field Operation */
+
+        try {
+            clearInputFields();
+        } catch (Exception e) {
+            System.out.println("Error  at cancel operation : " + e.getMessage());
+        }
+
     }
 
     private void browseCover() {
