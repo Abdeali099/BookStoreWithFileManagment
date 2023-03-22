@@ -175,7 +175,16 @@ public class BookActionListener implements ActionListener {
 
     private void doDeleteOperation() {
 
-        /* Steps : */
+        /* Steps :
+        *  1) Select One row Of table (At time only one can select)
+        *  2) Fetched data to TextField from JTable selected row. (One common method caused Updated also use same)
+        *  3) Click on  'Delete' button
+        *                    -> Confirmation
+        *                    -> Send which book selected (BookId) and Which row (Row Number)
+        *                    -> Delete from ArrayList in Action Listener class
+        *                    -> Pass to Controller with BookId
+        *                    -> Goes to File management and perform Delete operation in Data file.
+         * */
 
     }
 

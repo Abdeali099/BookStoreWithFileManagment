@@ -8,46 +8,72 @@ public class AddBookFromFile {
 
    private static File dataFile;
     private static final String dataFilePath="src\\Data\\AllBooksData.dat";
+    private static FileOutputStream fos=null;
 
-    public static void AddOneBookToFile(BookDataClass bookDataClass) {
+    /* -- Method --*/
+    public static void AddOneBookToFile(BookDataClass bookDataClass) throws IOException {
 
         try {
+
             dataFile = new File(dataFilePath);
 
-            FileOutputStream fos=null;
             fos=new FileOutputStream(dataFilePath,true);
 
             /* Checking condition If File was written or not*/
 
             if (dataFile.length() == 0) {
 
-                /* Initialize Data Object file class */
-                ObjectOutputStream addBookInFile = new ObjectOutputStream(fos);
+                ObjectOutputStream addBookInFile=null;
 
-                /* Add One book Object in File*/
-                addBookInFile.writeObject(bookDataClass);
+                try {
 
-                /* Closing file*/
-                addBookInFile.close();
+                    /* Initialize Data Object file class */
+                    addBookInFile = new ObjectOutputStream(fos);
+
+                    /* Add One book Object in File*/
+                    addBookInFile.writeObject(bookDataClass);
+
+                    addBookInFile.flush();
+
+                } catch (Exception e) {
+                    System.out.println("Error in Adding in file once : " + e + " Msg : " + e.getMessage());
+                } finally {
+                    if (addBookInFile!=null){
+                        addBookInFile.close();
+                    }
+                }
+
             }
 
             else {
 
                 MyObjectOutputStream oos = null;
-                oos = new MyObjectOutputStream(fos);
-                oos.writeObject(bookDataClass);
 
-                // Closing the FileOutputStream object
-                // to release memory resources
-                oos.close();
+                try {
+                    oos = new MyObjectOutputStream(fos);
+                    oos.writeObject(bookDataClass);
+
+                    oos.flush();
+
+                } catch (Exception e) {
+                    System.out.println("Error in Adding in file every time : " + e + " Msg : " + e.getMessage());
+                }finally {
+                    // Closing the FileOutputStream object
+                    // to release memory resources
+                    if (oos!=null){
+                        oos.close();
+                    }
+                }
+
             }
 
-            fos.close();
-
         } catch (Exception e) {
-            System.out.println("Error in Adding in file : " + e + " Msg : " + e.getMessage());
+            System.out.println("Error in Adding in file last : " + e + " Msg : " + e.getMessage());
+        } finally {
+             if (fos!=null){
+                fos.close();
+            }
         }
-
 
     }
 
