@@ -36,6 +36,9 @@ public class BookActionListener implements ActionListener {
     /* Operation On Book (as a Controller)*/
     private final PerformOperationOnBookData performOperationOnBookData;
 
+    /* ArrayList of Book Data (Helpful in Update and Delete when selected row data will be showed up in text field) */
+    ArrayList<BookDataClass> bookDataClassArrayList;
+
     /* ArrayList for BookId (Helps to check ID is not assign already) */
     public static ArrayList<Integer> idOfBooks;
 
@@ -46,6 +49,7 @@ public class BookActionListener implements ActionListener {
     public BookActionListener(BookStore bookStore) {
         this.bookStore = bookStore;
         performOperationOnBookData =new PerformOperationOnBookData();
+        bookDataClassArrayList=new ArrayList<>();
         idOfBooks=new ArrayList<>();
     }
 
@@ -69,7 +73,6 @@ public class BookActionListener implements ActionListener {
     public void FetchAllBooks(){
         /* This method call from BookStore constructor only for one time */
         try {
-            ArrayList<BookDataClass> bookDataClassArrayList;
 
             /* Taking data from Controller : Not direct calling File method */
             bookDataClassArrayList = performOperationOnBookData.fetchAllStoredData();
@@ -126,7 +129,7 @@ public class BookActionListener implements ActionListener {
         /* Data already fetched when validate input */
         bookDataClass.setBookId(bookId);
         bookDataClass.setBookName(bookName);
-        bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
+        bookDataClass.setBookSubject(bookSubject);
         bookDataClass.setAuthorName(authorName);
         bookDataClass.setPublication(publication);
         bookDataClass.setDateOfPublication(dateOfPublication);
@@ -135,13 +138,17 @@ public class BookActionListener implements ActionListener {
         bookDataClass.setTotalCost(totalCost);
         bookDataClass.setBookCoverPath(bookCoverPath);
 
-        /* I have to Add This at 2 Place
+        /* I have to Add This at 3 Place
          *
          * 1) In File : By File Management (Cause every time Adding ArrayList is not Good (It is on Controller side)
-         * 2) Adding data in Table Row.
+         * 2) In ArrayList
+         * 3) Adding data in Table Row.
          * */
 
         try {
+
+            /* Adding object in arrayList */
+            bookDataClassArrayList.add(bookDataClass);
             /* Adding book ID in array list , helpful in validation */
             idOfBooks.add(bookId);
 
