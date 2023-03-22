@@ -19,7 +19,7 @@ public class ReadBookFromFile {
         ObjectInputStream readBookDataFromFile = null;
 
         try {
-             fis = new FileInputStream("src\\Data\\AllBooksData.dat");
+             fis = new FileInputStream(dataFilePath);
              readBookDataFromFile = new ObjectInputStream(fis);
             BookDataClass bookDataClass = new BookDataClass();
             arrayListBookDataClass=new ArrayList<>();

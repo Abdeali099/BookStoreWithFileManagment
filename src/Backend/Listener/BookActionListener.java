@@ -184,6 +184,19 @@ public class BookActionListener implements ActionListener {
         *                    -> Delete from ArrayList in Action Listener class
         *                    -> Pass to Controller with BookId
         *                    -> Goes to File management and perform Delete operation in Data file.
+        *
+        *           !! Above logic will not work !!
+        *
+        *             -- Logic 1 --
+        *          1) Pass whole ArrayList to controller
+        *          2) Delete Old File -> Create a new File
+        *          3) Rewrite whole ArrayList (Very Costly)
+        *
+        *           -- Logic 2 --
+        *
+        *          1) Change whole design add one "Save" Button
+        *          2) Add Whole ArrayList instead of adding One object!!
+        *          3) See video on Yt how to do operation on JTable!
          * */
 
     }

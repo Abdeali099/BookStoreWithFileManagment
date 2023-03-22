@@ -6,13 +6,13 @@ import Backend.FileManagment.FetchBookCoverByFile;
 import Backend.FileManagment.ReadBookFromFile;
 import Backend.Modal.BookDataClass;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PerformOperationOnBookData implements OperationsOnBookData{
 
     @Override
     public void AddBook(BookDataClass bookDataClass) {
-        System.out.println("2) I am in addBook");
 
         /* I have to Add This at 2 Place
          *
@@ -21,7 +21,11 @@ public class PerformOperationOnBookData implements OperationsOnBookData{
          * */
 
          /* 1) Adding in File */
-        AddBookFromFile.AddOneBookToFile(bookDataClass);
+        try {
+            AddBookFromFile.AddOneBookToFile(bookDataClass);
+        } catch (IOException e) {
+            System.out.println("Error in Controlled Add Data: " + e + " Msg : " + e.getMessage());
+        }
     }
 
     @Override
@@ -46,7 +50,12 @@ public class PerformOperationOnBookData implements OperationsOnBookData{
 
     @Override
     public ArrayList<BookDataClass> fetchAllStoredData() {
-        return ReadBookFromFile.fetchAllStoredDataFromFile();
+        try {
+            return ReadBookFromFile.fetchAllStoredDataFromFile();
+        } catch (IOException e) {
+            System.out.println("Error in Controlled Fetched Data: " + e + " Msg : " + e.getMessage());
+        }
+        return null;
     }
 
 }
