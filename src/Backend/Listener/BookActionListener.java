@@ -11,6 +11,11 @@
 *
 *  This will provide or complete job by calling Controller "PerformOperationOnBookData".
 *  */
+
+/* This is not efficient !!
+*   1) ArrayList is needed only Once when window is loaded , I have added ArrayList in whole class
+* */
+
 package Backend.Listener;
 
 import Backend.Controller.PerformOperationOnBookData;
@@ -35,7 +40,7 @@ public class BookActionListener implements ActionListener {
     private final PerformOperationOnBookData performOperationOnBookData;
 
     /* ArrayList for data of Book*/
-    public static ArrayList<BookDataClass> bookDataClassArrayList;
+//    public static ArrayList<BookDataClass> bookDataClassArrayList;
 
     /* ArrayList for BookId (Helps to check ID is not assign already) */
     public static ArrayList<Integer> idOfBooks;
@@ -47,7 +52,6 @@ public class BookActionListener implements ActionListener {
     public BookActionListener(BookStore bookStore) {
         this.bookStore = bookStore;
         performOperationOnBookData =new PerformOperationOnBookData();
-        bookDataClassArrayList=new ArrayList<>();
         idOfBooks=new ArrayList<>();
     }
 
@@ -64,6 +68,53 @@ public class BookActionListener implements ActionListener {
             case "Cover" -> browseCover();
         }
 
+    }
+
+    /* User defined methods - by Abdeali */
+
+    public void FetchAllBooks(){
+        /* This method call from BookStore constructor only for one time */
+        try {
+            ArrayList<BookDataClass> bookDataClassArrayList;
+
+            /* Taking data from Controller : Not direct calling File method */
+            bookDataClassArrayList = performOperationOnBookData.fetchAllStoredData();
+
+            if (bookDataClassArrayList.isEmpty()) {
+                return;
+            }
+
+            /* <--- Adding it to JTable Row ---> */
+
+            /* Referencing Table Modal */
+            DefaultTableModel tableModel = bookStore.bookTable.defaultTableModel;
+
+            /* mapping / Iterating arraylist */
+            bookDataClassArrayList.forEach(bookDataClass -> {
+
+                bookId = bookDataClass.getBookId();
+                idOfBooks.add(bookId); /* Adding book ID in array list , helpful in validation */
+
+                bookName = bookDataClass.getBookName();
+                bookSubject = bookDataClass.getBookSubject();
+                authorName = bookDataClass.getAuthorName();
+                publication = bookDataClass.getPublication();
+                dateOfPublication = bookDataClass.getDateOfPublication();
+                bookPrice = bookDataClass.getBookPrice();
+                bookQuantity = bookDataClass.getBookQuantity();
+                totalCost = bookDataClass.getTotalCost();
+                bookCoverPath = bookDataClass.getBookCoverPath();
+
+                /* Making One Row */
+                Object[] dataOfRow = {bookId, bookName, bookSubject, authorName, publication, dateOfPublication, bookPrice, bookQuantity, totalCost, bookCoverPath};
+
+                /* Adding One Row */
+                tableModel.addRow(dataOfRow);
+            });
+
+        } catch (Exception e) {
+            System.out.println("Error  at Fetching data Listener : " + e.getMessage());
+        }//catch close
     }
 
     private void doAddOperation() {
@@ -90,17 +141,15 @@ public class BookActionListener implements ActionListener {
         bookDataClass.setTotalCost(totalCost);
         bookDataClass.setBookCoverPath(bookCoverPath);
 
-        /* I have to Add This at 3 Place
+        /* I have to Add This at 2 Place
          *
          * 1) In File : By File Management (Cause every time Adding ArrayList is not Good (It is on Controller side)
-         * 2) In ArrayList : to do Easy Operation
-         * 3) Adding data in Table Row.
+         * 2) Adding data in Table Row.
          * */
 
         try {
-            /* Add in ArrayList */
-            bookDataClassArrayList.add(bookDataClass);
-            idOfBooks.add(bookId); /* Adding book ID in array list , helpful in validation */
+            /* Adding book ID in array list , helpful in validation */
+            idOfBooks.add(bookId);
 
             /* send to controller*/
             performOperationOnBookData.AddBook(bookDataClass);
@@ -124,6 +173,9 @@ public class BookActionListener implements ActionListener {
     }
 
     private void doDeleteOperation() {
+
+        /* Steps : */
+
     }
 
     private void doCancelOperation() {
@@ -180,50 +232,6 @@ public class BookActionListener implements ActionListener {
         Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
         bookCoverImage.setIcon(new ImageIcon(img));
 
-    }
-
-    public void FetchAllBooks(){
-                /* This method call from BookStore constructor only for one time */
-        try {
-
-            /* Taking data from Controller : Not direct calling File method */
-            bookDataClassArrayList = performOperationOnBookData.fetchAllStoredData();
-
-            if (bookDataClassArrayList.isEmpty()) {
-                return;
-            }
-
-            /* <--- Adding it to JTable Row ---> */
-
-            /* Referencing Table Modal */
-            DefaultTableModel tableModel = bookStore.bookTable.defaultTableModel;
-
-            /* mapping / Iterating arraylist */
-            bookDataClassArrayList.forEach(bookDataClass -> {
-
-                bookId = bookDataClass.getBookId();
-                idOfBooks.add(bookId); /* Adding book ID in array list , helpful in validation */
-
-                bookName = bookDataClass.getBookName();
-                bookSubject = bookDataClass.getBookSubject();
-                authorName = bookDataClass.getAuthorName();
-                publication = bookDataClass.getPublication();
-                dateOfPublication = bookDataClass.getDateOfPublication();
-                bookPrice = bookDataClass.getBookPrice();
-                bookQuantity = bookDataClass.getBookQuantity();
-                totalCost = bookDataClass.getTotalCost();
-                bookCoverPath = bookDataClass.getBookCoverPath();
-
-                /* Making One Row */
-                Object[] dataOfRow = {bookId, bookName, bookSubject, authorName, publication, dateOfPublication, bookPrice, bookQuantity, totalCost, bookCoverPath};
-
-                /* Adding One Row */
-                tableModel.addRow(dataOfRow);
-            });
-
-        } catch (Exception e) {
-            System.out.println("Error  at Fetching data Listener : " + e.getMessage());
-        }//catch close
     }
 
     public boolean checkValidation() {
