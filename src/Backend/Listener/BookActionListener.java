@@ -35,8 +35,12 @@ public class BookActionListener implements ActionListener {
     private final PerformOperationOnBookData performOperationOnBookData;
     /* Data of Book (Modal) */
      private BookDataClass bookDataClass;
-    /* ArrayList for data of Book*/
+
+     /* ArrayList for data of Book*/
     public static ArrayList<BookDataClass> bookDataClassArrayList;
+
+    /* ArrayList for BookId (Helps to check ID is not assign already) */
+    public static ArrayList<Integer> idOfBooks;
 
     /* Actual data of Book Data (Modal) */
     private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
@@ -46,6 +50,7 @@ public class BookActionListener implements ActionListener {
         this.bookStore = bookStore;
         performOperationOnBookData =new PerformOperationOnBookData();
         bookDataClassArrayList=new ArrayList<>();
+        idOfBooks=new ArrayList<>();
     }
 
     @Override
@@ -65,10 +70,8 @@ public class BookActionListener implements ActionListener {
 
     private void doAddOperation() {
 
-        System.out.println("1) I am in doAddOperation");
-
         /* Checking RegEx */
-        boolean shouldGoFurther=checkRegExOfField();
+        boolean shouldGoFurther=checkValidation();
 
         if (!shouldGoFurther) {
             return;
@@ -76,37 +79,19 @@ public class BookActionListener implements ActionListener {
 
         bookDataClass=new BookDataClass();
 
-        bookId=Integer.parseInt(bookStore.addBookPanel.tfBookID.getText());
+        /* Data already fetched when validate input */
         bookDataClass.setBookId(bookId);
-
-        bookName=bookStore.addBookPanel.tfBookName.getText();
         bookDataClass.setBookName(bookName);
-
         bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
-        bookDataClass.setBookSubject(bookSubject);
-
-        authorName=bookStore.addBookPanel.tfAuthorName.getText();
         bookDataClass.setAuthorName(authorName);
-
-        publication=bookStore.addBookPanel.tfPublication.getText();
         bookDataClass.setPublication(publication);
-
-        dateOfPublication=bookStore.addBookPanel.tfDatePublication.getText();
         bookDataClass.setDateOfPublication(dateOfPublication);
-
-        bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
         bookDataClass.setBookPrice(bookPrice);
-
-        bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
         bookDataClass.setBookQuantity(bookQuantity);
-
-        totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
         bookDataClass.setTotalCost(totalCost);
-
-        bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
         bookDataClass.setBookCoverPath(bookCoverPath);
 
-        /* I have to Add This at 2 Place
+        /* I have to Add This at 3 Place
          *
          * 1) In File : By File Management (Cause every time Adding ArrayList is not Good (It is on Controller side)
          * 2) In ArrayList : to do Easy Operation
@@ -116,6 +101,7 @@ public class BookActionListener implements ActionListener {
         try {
             /* Add in ArrayList */
             bookDataClassArrayList.add(bookDataClass);
+            idOfBooks.add(bookId); /* Adding book ID in array list , helpful in validation */
 
             /* send to controller*/
             performOperationOnBookData.AddBook(bookDataClass);
@@ -128,11 +114,10 @@ public class BookActionListener implements ActionListener {
 
             tableModel.addRow(dataOfRow);
 
+            clearInputFields();
         } catch (Exception e) {
             System.out.println("Error  at listener Add : " + e.getMessage());
         }
-
-        clearInputFields();
 
     }
 
@@ -166,24 +151,17 @@ public class BookActionListener implements ActionListener {
     private void clearInputFields() {
 
         bookStore.addBookPanel.tfBookID.setText("");
-
         bookStore.addBookPanel.tfBookName.setText("");
-
         bookStore.addBookPanel.tfBookSubject.setText("");
-
         bookStore.addBookPanel.tfAuthorName.setText("");
-
         bookStore.addBookPanel.tfPublication.setText("");
 
         DateChooser dateChooser = bookStore.addBookPanel.dateChooser;
         dateChooser.setTextRefernce(bookStore.addBookPanel.tfDatePublication);
 
         bookStore.addBookPanel.spBookPrice.setValue(200);
-
         bookStore.addBookPanel.spBookQuantity.setValue(1);
-
         bookStore.addBookPanel.tfTotalCost.setText("200");
-
         bookStore.addBookPanel.bookCover.bookCoverPath="src\\assets\\byDefaultCover.jpg";
 
 
@@ -217,23 +195,16 @@ public class BookActionListener implements ActionListener {
             bookDataClassArrayList.forEach(bookDataClass -> {
 
                 bookId = bookDataClass.getBookId();
+                idOfBooks.add(bookId); /* Adding book ID in array list , helpful in validation */
 
                 bookName = bookDataClass.getBookName();
-
                 bookSubject = bookDataClass.getBookSubject();
-
                 authorName = bookDataClass.getAuthorName();
-
                 publication = bookDataClass.getPublication();
-
                 dateOfPublication = bookDataClass.getDateOfPublication();
-
                 bookPrice = bookDataClass.getBookPrice();
-
                 bookQuantity = bookDataClass.getBookQuantity();
-
                 totalCost = bookDataClass.getTotalCost();
-
                 bookCoverPath = bookDataClass.getBookCoverPath();
 
                 /* Making One Row */
@@ -248,36 +219,34 @@ public class BookActionListener implements ActionListener {
         }//catch close
     }
 
-    public boolean checkRegExOfField() {
+    public boolean checkValidation() {
 
         try {
 
+            /* Fetching All data from frontend */
+
             bookId=Integer.parseInt(bookStore.addBookPanel.tfBookID.getText());
-
             bookName=bookStore.addBookPanel.tfBookName.getText();
-
             bookSubject=bookStore.addBookPanel.tfBookSubject.getText();
-
             authorName=bookStore.addBookPanel.tfAuthorName.getText();
-
             publication=bookStore.addBookPanel.tfPublication.getText();
-
             dateOfPublication=bookStore.addBookPanel.tfDatePublication.getText();
-
             bookPrice=(Integer) bookStore.addBookPanel.spBookPrice.getValue();
-
             bookQuantity=(Integer) bookStore.addBookPanel.spBookQuantity.getValue();
-
             totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
-
             bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
 
-            /* Checking if any contain null or empty */
-            if (bookId < 100 || bookName.isEmpty() || bookSubject.isEmpty() || authorName.isEmpty() || publication.isEmpty() || dateOfPublication.isEmpty()) {
-                JOptionPane.showMessageDialog(null,"Some Inputs are not Proper","Alert",JOptionPane.WARNING_MESSAGE);
+            /* Checking For ID is duplicate or not */
+            if (idOfBooks.contains(bookId)) {
+                JOptionPane.showMessageDialog(null,"Id : '" + bookId +"' is already assigned!!","Error",JOptionPane.ERROR_MESSAGE);
                 return false;
             }
 
+            /* Checking if any contain null or empty */
+            if (bookId < 100 || bookName.isEmpty() || bookSubject.isEmpty() || authorName.isEmpty() || publication.isEmpty() || dateOfPublication.isEmpty() || bookCoverPath.isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Maybe Some Inputs are missing!!","Error",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
 
             /* For String (No digit) : Other fields */
             String regExForString = "[a-zA-Z]+";
@@ -290,8 +259,6 @@ public class BookActionListener implements ActionListener {
 
                 matcher=pattern.matcher(forRegEx);
 
-                System.out.println("Match? : " + matcher.matches());
-
                 if (!matcher.matches()) {
                     JOptionPane.showMessageDialog(null,"Can't have digit in String input","Error",JOptionPane.ERROR_MESSAGE);
                     return false;
@@ -300,14 +267,12 @@ public class BookActionListener implements ActionListener {
             }
 
         } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null,"Some Inputs are not Proper","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Some Inputs are not Proper!!","Error",JOptionPane.ERROR_MESSAGE);
             System.out.println("Error in Regex : " + e + " Msg : " + e.getMessage());
             return false;
         }
         return true;
     }
-
 
 
 } // class close
