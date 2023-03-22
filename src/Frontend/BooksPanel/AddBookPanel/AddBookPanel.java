@@ -7,8 +7,6 @@ import com.raven.datechooser.DateChooser;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatter;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
@@ -40,20 +38,12 @@ public class AddBookPanel extends JPanel {
     /* Integer for book Price,Quantity,TotalCost*/
     int IntBookPrice = 200, IntBookQuantity = 1, IntBookTotalCost = IntBookPrice * IntBookQuantity;
 
-    /* For RegEx*/
-    boolean flagChar;
 
     public AddBookPanel(BookStore mainContainer) {
         this.mainContainer = mainContainer;
 
-        /* Initialize Listener */
+        /* Initialize Action Listener */
         bookActionListener = new BookActionListener(mainContainer);
-
-        /* ---  For RegEx ---  */
-          flagChar = false;
-
-        /* For Int : ID */
-        String regExOfID = "[1-9][0-9]{2,}";
 
         /* Step : Adding Label - TextField */
 
@@ -76,32 +66,7 @@ public class AddBookPanel extends JPanel {
         this.add(tfBookID);
 
         /* In frontend, I am adding Validation (Not Recommended) (ID RegEx is not working properly ) */
-        tfBookID.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-
-                try {
-                    /* Checking Pattern */
-                    Pattern pattern = Pattern.compile(regExOfID);
-                    String Id = tfBookID.getText();
-                    Matcher matcher = pattern.matcher(Id);
-
-                    if (!matcher.matches()) {
-                        JOptionPane optionPane = new JOptionPane("Id have only digit with minimum length 3", JOptionPane.ERROR_MESSAGE);
-                        JDialog dialog = optionPane.createDialog("Error!");
-                        dialog.setAlwaysOnTop(true); // to show top of all other application
-                        dialog.setVisible(true); // to visible the dialog
-
-                        tfBookID.setFocusable(true);
-                    }
-                } catch (Exception e) {
-                    System.out.println("Error in Id regEx (Focused) : "+e);
-                }
-            }
-
-
-
-        });
+        /* Here is one bug : alphabets are printed, it not stops automatically */
 
         tfBookID.addKeyListener(new KeyAdapter() {
             @Override
@@ -111,26 +76,43 @@ public class AddBookPanel extends JPanel {
 
                     char keyChar = typedEvent.getKeyChar();
 
-                    if (flagChar) {
-                        String Id = tfBookID.getText();
-                        Id = Id.substring(0, Id.length() - 1);
-                        tfBookID.setText(Id);
-                        flagChar=false;
-                    }
-
                     if (!(keyChar >= 48 && keyChar <= 57) && !(keyChar==8 || keyChar==127)) {
                         JOptionPane optionPane = new JOptionPane("ID can only be a number", JOptionPane.ERROR_MESSAGE);
                         JDialog dialog = optionPane.createDialog("Error!");
                         dialog.setAlwaysOnTop(true); // to show top of all other application
                         dialog.setVisible(true); // to visible the dialog
-                        flagChar = true;
                     }
-
                 } catch (Exception e) {
                     System.out.println("Error in Id regEx (Typed) : "+e);
                 }
             }
 
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+                try {
+
+                    /* For Int : ID */
+                    String regExOfID = "[0-9]+";
+
+                    /* Checking Pattern */
+                    Pattern pattern = Pattern.compile(regExOfID);
+                    String Id = tfBookID.getText();
+                    Matcher matcher = pattern.matcher(Id);
+
+                    if (!matcher.matches()) {
+                        JOptionPane optionPane = new JOptionPane("Id have only digits with minimum length 1!", JOptionPane.ERROR_MESSAGE);
+                        JDialog dialog = optionPane.createDialog("Error!");
+                        dialog.setAlwaysOnTop(true); // to show top of all other application
+                        dialog.setVisible(true); // to visible the dialog
+
+                        tfBookID.setFocusable(true);
+                    }
+                } catch (Exception es) {
+                    System.out.println("Error in Id regEx (Released) : "+es);
+                }
+
+            }
         });
 
         /* Input 2 : Book Name */
