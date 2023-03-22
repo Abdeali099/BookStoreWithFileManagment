@@ -12,9 +12,6 @@
 *  This will provide or complete job by calling Controller "PerformOperationOnBookData".
 *  */
 
-/* This is not efficient !!
-*   1) ArrayList is needed only Once when window is loaded , I have added ArrayList in whole class
-* */
 
 package Backend.Listener;
 
@@ -38,9 +35,6 @@ public class BookActionListener implements ActionListener {
     public BookStore bookStore;
     /* Operation On Book (as a Controller)*/
     private final PerformOperationOnBookData performOperationOnBookData;
-
-    /* ArrayList for data of Book*/
-//    public static ArrayList<BookDataClass> bookDataClassArrayList;
 
     /* ArrayList for BookId (Helps to check ID is not assign already) */
     public static ArrayList<Integer> idOfBooks;
@@ -179,10 +173,18 @@ public class BookActionListener implements ActionListener {
     }
 
     private void doCancelOperation() {
-        /* Eventually it is clear field Operation */
+        /* Eventually it is clear field Operation but have to add confirmation */
 
         try {
+            int input = JOptionPane.showConfirmDialog(null, "Are you sure to cancel?", "Cancel", JOptionPane.YES_NO_OPTION);
+            // input : 0=yes, 1=no
+
+            if (input == 1) {
+                return;
+            }
+
             clearInputFields();
+
         } catch (Exception e) {
             System.out.println("Error  at cancel operation : " + e.getMessage());
         }
