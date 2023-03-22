@@ -33,10 +33,8 @@ public class BookActionListener implements ActionListener {
     public BookStore bookStore;
     /* Operation On Book (as a Controller)*/
     private final PerformOperationOnBookData performOperationOnBookData;
-    /* Data of Book (Modal) */
-     private BookDataClass bookDataClass;
 
-     /* ArrayList for data of Book*/
+    /* ArrayList for data of Book*/
     public static ArrayList<BookDataClass> bookDataClassArrayList;
 
     /* ArrayList for BookId (Helps to check ID is not assign already) */
@@ -70,14 +68,15 @@ public class BookActionListener implements ActionListener {
 
     private void doAddOperation() {
 
-        /* Checking RegEx */
+        /* Checking Validation  */
         boolean shouldGoFurther=checkValidation();
 
         if (!shouldGoFurther) {
             return;
         }
 
-        bookDataClass=new BookDataClass();
+        /* Data of Book (Modal) */
+        BookDataClass bookDataClass = new BookDataClass();
 
         /* Data already fetched when validate input */
         bookDataClass.setBookId(bookId);
@@ -259,7 +258,7 @@ public class BookActionListener implements ActionListener {
             /* For String (No digit) : Other fields */
             String regExForString = "[a-zA-Z]+";
             Pattern pattern=Pattern.compile(regExForString);
-            Matcher matcher=null;
+            Matcher matcher;
 
             String[] listForRegEx={bookName,bookSubject,authorName,publication};
 
