@@ -16,7 +16,6 @@ public class ReadBookFromFile {
     public static ArrayList<BookDataClass> fetchAllStoredDataFromFile() throws IOException {
 
         try {
-            System.out.println("I am in Read File -1 ");
 
             File f=new File(dataFilePath);
              fis = new FileInputStream(dataFilePath);
@@ -26,9 +25,6 @@ public class ReadBookFromFile {
             if (f.length()!=0) {
                 arrayListBookDataClass = (ArrayList<BookDataClass>) readBookDataFromFile.readObject();
             }
-            System.out.println("I am in data File");
-
-            System.out.println(arrayListBookDataClass);
 
         } catch (EOFException ignored) {
             System.out.println("File is Empty");
