@@ -59,6 +59,7 @@ public class BookActionListener implements ActionListener {
         String operationHappen=event.getActionCommand();
 
         switch (operationHappen) {
+            case "Save" -> saveAllChanges();
             case "Add" -> doAddOperation();
             case "Update" -> doUpdateOperation();
             case "Delete" -> doDeleteOperation();
@@ -69,6 +70,10 @@ public class BookActionListener implements ActionListener {
     }
 
     /* User defined methods - by Abdeali */
+
+    public void saveAllChanges() {
+
+    }
 
     public void FetchAllBooks(){
         /* This method call from BookStore constructor only for one time */

@@ -269,8 +269,8 @@ public class AddBookPanel extends JPanel {
         /* Adding Button Panel */
         operationButtonPanel = new OperationButtonPanel(mainContainer);
         operationButtonPanel.setBackground(new Color(174, 202, 153, 255));
-        operationButtonPanel.setBounds(40, 320, 1000, 40);
-        operationButtonPanel.setLayout(new GridLayout(1, 4, 20, 25));
+        operationButtonPanel.setBounds(55, 325, 1000, 40);
+        operationButtonPanel.setLayout(new GridLayout(1, 5, 20, 25));
         this.add(operationButtonPanel);
 
         /* Book cover Panel */
