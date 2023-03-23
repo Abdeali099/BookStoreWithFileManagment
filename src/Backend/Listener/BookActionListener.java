@@ -91,14 +91,9 @@ public class BookActionListener implements ActionListener {
             /* Taking data from Controller : Not direct calling File method */
             bookDataClassArrayList = performOperationOnBookData.fetchAllStoredData();
 
-            System.out.println("I am in Listener -1 ");
-
-
             if (bookDataClassArrayList == null) {
                 return;
             }
-
-            System.out.println("I am in Listener -2 ");
 
             /* <--- Adding it to JTable Row ---> */
 
@@ -173,8 +168,6 @@ public class BookActionListener implements ActionListener {
 
             /* send to controller*/
             performOperationOnBookData.AddBook(bookDataClassArrayList);
-
-            System.out.println(bookDataClassArrayList);
 
             /* <--- Adding it to JTable Row ---> */
             /* Referencing Table Modal */
@@ -327,7 +320,7 @@ public class BookActionListener implements ActionListener {
             }
 
             /* For String (No digit) : Other fields */
-            String regExForString = "[a-zA-Z]+";
+            String regExForString = "^[ A-Za-z]+$";
             Pattern pattern=Pattern.compile(regExForString);
             Matcher matcher;
 
