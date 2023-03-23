@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 public interface OperationsOnBookData {
 
-    void AddBook(BookDataClass bookDataClass);
+    void AddBook(ArrayList<BookDataClass> bookDataClassArrayList);
+
     void updateBook(int bookId);
     void deleteBook(int bookId);
 

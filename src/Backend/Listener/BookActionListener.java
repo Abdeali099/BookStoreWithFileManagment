@@ -37,10 +37,14 @@ public class BookActionListener implements ActionListener {
     private final PerformOperationOnBookData performOperationOnBookData;
 
     /* ArrayList of Book Data (Helpful in Update and Delete when selected row data will be showed up in text field) */
-    ArrayList<BookDataClass> bookDataClassArrayList;
+    private static ArrayList<BookDataClass> bookDataClassArrayList;
 
     /* ArrayList for BookId (Helps to check ID is not assign already) */
     public static ArrayList<Integer> idOfBooks;
+
+    /* Flags to know what had done ? : Add|Delete|Update (Cancel is not necessary)*/
+
+    static boolean  addBookDone,updateBookDone,deleteBookDone,saveAllChangesDone;
 
     /* Actual data of Book Data (Modal) */
     private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
@@ -51,6 +55,11 @@ public class BookActionListener implements ActionListener {
         performOperationOnBookData =new PerformOperationOnBookData();
         bookDataClassArrayList=new ArrayList<>();
         idOfBooks=new ArrayList<>();
+
+        addBookDone=false;
+        updateBookDone=false;
+        deleteBookDone=false;
+        saveAllChangesDone=false;
     }
 
     @Override
@@ -82,9 +91,14 @@ public class BookActionListener implements ActionListener {
             /* Taking data from Controller : Not direct calling File method */
             bookDataClassArrayList = performOperationOnBookData.fetchAllStoredData();
 
-            if (bookDataClassArrayList.isEmpty()) {
+            System.out.println("I am in Listener -1 ");
+
+
+            if (bookDataClassArrayList == null) {
                 return;
             }
+
+            System.out.println("I am in Listener -2 ");
 
             /* <--- Adding it to JTable Row ---> */
 
@@ -158,7 +172,9 @@ public class BookActionListener implements ActionListener {
             idOfBooks.add(bookId);
 
             /* send to controller*/
-            performOperationOnBookData.AddBook(bookDataClass);
+            performOperationOnBookData.AddBook(bookDataClassArrayList);
+
+            System.out.println(bookDataClassArrayList);
 
             /* <--- Adding it to JTable Row ---> */
             /* Referencing Table Modal */
@@ -168,6 +184,9 @@ public class BookActionListener implements ActionListener {
 
             tableModel.addRow(dataOfRow);
 
+            /* Updating status of add */
+            addBookDone=true;
+
             clearInputFields();
         } catch (Exception e) {
             System.out.println("Error  at listener Add : " + e.getMessage());
@@ -176,6 +195,14 @@ public class BookActionListener implements ActionListener {
     }
 
     private void doUpdateOperation() {
+
+        /* First check Some Operation Has Ocuured or Not*/
+
+        if (!(addBookDone || deleteBookDone)) {
+            JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
     }
 
     private void doDeleteOperation() {
@@ -294,7 +321,7 @@ public class BookActionListener implements ActionListener {
             }
 
             /* Checking if any contain null or empty */
-            if (bookId < 100 || bookName.isEmpty() || bookSubject.isEmpty() || authorName.isEmpty() || publication.isEmpty() || dateOfPublication.isEmpty() || bookCoverPath.isEmpty()) {
+            if (bookName.isEmpty() || bookSubject.isEmpty() || authorName.isEmpty() || publication.isEmpty() || dateOfPublication.isEmpty() || bookCoverPath.isEmpty()) {
                 JOptionPane.showMessageDialog(null,"Maybe Some Inputs are missing!!","Error",JOptionPane.ERROR_MESSAGE);
                 return false;
             }

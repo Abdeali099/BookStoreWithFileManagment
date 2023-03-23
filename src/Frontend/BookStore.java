@@ -106,6 +106,7 @@ public class BookStore extends JFrame {
 
         try {
             BookActionListener fetchData =new BookActionListener(this);
+            System.out.println("I am in Frontend");
             fetchData.FetchAllBooks();
         } catch (Exception e) {
             System.out.println("Error  at Fetching from frontend : " + e.getMessage());
