@@ -86,7 +86,7 @@ public class BookActionListener implements ActionListener {
 
         /* First check Some Operation Has Ocuured or Not*/
 
-        if (!(addBookDone || deleteBookDone)) {
+        if (!(addBookDone || deleteBookDone || updateBookDone)) {
             JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -103,9 +103,10 @@ public class BookActionListener implements ActionListener {
         BookKeyListener.TitleFlag=false;
         bookStore.setTitle("Book Store");
 
-        /* reset flag of update and add*/
+        /* reset flag of update , add and delete */
         addBookDone=false;
         deleteBookDone=false;
+        updateBookDone=false;
 
         /* Here give Toast */
 
@@ -158,7 +159,7 @@ public class BookActionListener implements ActionListener {
     private void doAddOperation() {
 
         /* Checking Validation  */
-        boolean shouldGoFurther=checkValidation();
+        boolean shouldGoFurther=checkValidation(0);
 
         if (!shouldGoFurther) {
             return;
@@ -213,6 +214,84 @@ public class BookActionListener implements ActionListener {
 
     private void doUpdateOperation() {
 
+        int rowSelected=RowSelectionListener.selectedRow;
+
+        /* Check Whether Row is selected or Not */
+        if (rowSelected<=0) {
+            JOptionPane.showMessageDialog(null,"No row is selected!!","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        /* Taking confirmation */
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure to update?", "Update", JOptionPane.YES_NO_OPTION);
+        // input : 0=yes, 1=no
+
+        if (input == 1) {
+            /* DeSelect row */
+            bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
+
+            clearInputFields();
+
+            /* Reset ID Field which  was changed when Row selected */
+            bookStore.addBookPanel.tfBookID.setEditable(true);
+            Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+            bookStore.addBookPanel.tfBookID.setCursor(cursor);
+
+            return;
+        }
+
+        /* Checking Validation  */
+        boolean shouldGoFurther=checkValidation(1);
+
+        if (!shouldGoFurther) {
+            return;
+        }
+
+        /* if ( Selected & confirmed ) then Update it to Table*/
+
+        DefaultTableModel updateTableModel=bookStore.bookTable.defaultTableModel;
+
+        updateTableModel.setValueAt(bookId , rowSelected, 0);
+        updateTableModel.setValueAt(bookName , rowSelected, 1);
+        updateTableModel.setValueAt(bookSubject , rowSelected, 2);
+        updateTableModel.setValueAt(authorName , rowSelected, 3);
+        updateTableModel.setValueAt(publication , rowSelected, 4);
+        updateTableModel.setValueAt(dateOfPublication , rowSelected, 5);
+        updateTableModel.setValueAt(bookPrice , rowSelected, 6);
+        updateTableModel.setValueAt(bookQuantity , rowSelected, 7);
+        updateTableModel.setValueAt(totalCost , rowSelected, 8);
+        updateTableModel.setValueAt(bookCoverPath , rowSelected, 9);
+
+
+        /* Also from ArrayList */
+
+        BookDataClass updatedBookDataClass = new BookDataClass();
+
+        updatedBookDataClass.setBookId(bookId);
+        updatedBookDataClass.setBookName(bookName);
+        updatedBookDataClass.setBookSubject(bookSubject);
+        updatedBookDataClass.setAuthorName(authorName);
+        updatedBookDataClass.setPublication(publication);
+        updatedBookDataClass.setDateOfPublication(dateOfPublication);
+        updatedBookDataClass.setBookPrice(bookPrice);
+        updatedBookDataClass.setBookQuantity(bookQuantity);
+        updatedBookDataClass.setTotalCost(totalCost);
+        updatedBookDataClass.setBookCoverPath(bookCoverPath);
+
+        bookDataClassArrayList.set(rowSelected,updatedBookDataClass);
+
+        /* Updating status of deletion */
+        updateBookDone=true;
+
+        clearInputFields();
+
+        /* DeSelect row */
+        bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
+
+        /* Reset ID Field which  was changed when Row selected */
+        bookStore.addBookPanel.tfBookID.setEditable(true);
+        Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+        bookStore.addBookPanel.tfBookID.setCursor(cursor);
     }
 
     private void doDeleteOperation() {
@@ -328,7 +407,13 @@ public class BookActionListener implements ActionListener {
 
     }
 
-    public boolean checkValidation() {
+    public boolean checkValidation(int forOperation) {
+
+        /* forOperation :
+        * 0 : Add
+        * 1 : Update
+        *  For Update 'ID' validation will be omitted.
+        * */
 
         try {
 
@@ -345,10 +430,14 @@ public class BookActionListener implements ActionListener {
             totalCost=Integer.parseInt(bookStore.addBookPanel.tfTotalCost.getText());
             bookCoverPath=bookStore.addBookPanel.bookCover.bookCoverPath;
 
-            /* Checking For ID is duplicate or not */
-            if (idOfBooks.contains(bookId)) {
-                JOptionPane.showMessageDialog(null,"Id : '" + bookId +"' is already assigned!!","Error",JOptionPane.ERROR_MESSAGE);
-                return false;
+            if (forOperation==0) { /* Only for 'Add' */
+
+                /* Checking For ID is duplicate or not */
+                if (idOfBooks.contains(bookId)) {
+                    JOptionPane.showMessageDialog(null,"Id : '" + bookId +"' is already assigned!!","Error",JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+
             }
 
             /* Checking Date is not greater than current date. */
