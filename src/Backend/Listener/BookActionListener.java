@@ -25,7 +25,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -228,6 +230,16 @@ public class BookActionListener implements ActionListener {
         // input : 0=yes, 1=no
 
         if (input == 1) {
+            /* DeSelect row */
+            bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
+
+            clearInputFields();
+
+            /* Reset ID Field which  was changed when Row selected */
+            bookStore.addBookPanel.tfBookID.setEditable(true);
+            Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+            bookStore.addBookPanel.tfBookID.setCursor(cursor);
+
             return;
         }
 
@@ -339,6 +351,23 @@ public class BookActionListener implements ActionListener {
                 return false;
             }
 
+            /* Checking Date is not greater than current date. */
+
+            /* Fetching Current date*/
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String todayDate = formatter.format(date);
+
+            Date selectedDate=formatter.parse(dateOfPublication);
+            Date currentDate=formatter.parse(todayDate);
+
+            int shouldAllowed = selectedDate.compareTo(currentDate);
+
+            if (shouldAllowed > 0) {
+                JOptionPane.showMessageDialog(null,"Publication date can't be in future","Error",JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
             /* Checking if any contain null or empty */
             if (bookName.isEmpty() || bookSubject.isEmpty() || authorName.isEmpty() || publication.isEmpty() || dateOfPublication.isEmpty() || bookCoverPath.isEmpty()) {
                 JOptionPane.showMessageDialog(null,"Maybe Some Inputs are missing!!","Error",JOptionPane.ERROR_MESSAGE);
@@ -350,7 +379,7 @@ public class BookActionListener implements ActionListener {
             Pattern pattern=Pattern.compile(regExForString);
             Matcher matcher;
 
-            String[] listForRegEx={bookName,bookSubject,authorName,publication};
+            String[] listForRegEx={bookName,authorName,publication};
 
             for (String forRegEx : listForRegEx) {
 
