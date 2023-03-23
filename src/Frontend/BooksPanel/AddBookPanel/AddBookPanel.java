@@ -1,6 +1,6 @@
 package Frontend.BooksPanel.AddBookPanel;
 
-import Backend.Listener.BookActionListener;
+import Backend.Listener.BookKeyListener;
 import Frontend.BookStore;
 import com.raven.datechooser.DateChooser;
 
@@ -18,8 +18,8 @@ public class AddBookPanel extends JPanel {
     /* Classes */
     BookStore mainContainer;
 
-    /*Action Listener clas*/
-    BookActionListener bookActionListener;
+    /*Key Listener clas*/
+    BookKeyListener bookKeyListener;
 
     /* Component */
     public JLabel lbBookID, lbBookName, lbBookSubject, lbAuthorName, lbPublication, lbDatePublication, lbBookPrice, lbBookQuantity, lbTotalCost;
@@ -42,8 +42,8 @@ public class AddBookPanel extends JPanel {
     public AddBookPanel(BookStore mainContainer) {
         this.mainContainer = mainContainer;
 
-        /* Initialize Action Listener */
-        bookActionListener = new BookActionListener(mainContainer);
+        /* Initialize Key Listener */
+        bookKeyListener = new BookKeyListener(mainContainer);
 
         /* Step : Adding Label - TextField */
 
@@ -75,6 +75,7 @@ public class AddBookPanel extends JPanel {
                 try{
 
                     char keyChar = typedEvent.getKeyChar();
+                    mainContainer.setTitle("*BookStore (Unsaved)");
 
                     if (!(keyChar >= 48 && keyChar <= 57) && !(keyChar==8 || keyChar==127)) {
                         JOptionPane optionPane = new JOptionPane("ID can only be a number", JOptionPane.ERROR_MESSAGE);
@@ -126,6 +127,7 @@ public class AddBookPanel extends JPanel {
         tfBookName = new JTextField();
         tfBookName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookName.setBounds(710, 20, 320, 30);
+        tfBookName.addKeyListener(bookKeyListener);
         this.add(tfBookName);
 
         /* Input 3 : Book Subject */
@@ -138,6 +140,7 @@ public class AddBookPanel extends JPanel {
         tfBookSubject = new JTextField();
         tfBookSubject.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfBookSubject.setBounds(190, 90, 320, 30);
+        tfBookSubject.addKeyListener(bookKeyListener);
         this.add(tfBookSubject);
 
 
@@ -151,6 +154,7 @@ public class AddBookPanel extends JPanel {
         tfAuthorName = new JTextField();
         tfAuthorName.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfAuthorName.setBounds(710, 90, 320, 30);
+        tfAuthorName.addKeyListener(bookKeyListener);
         this.add(tfAuthorName);
 
         /* Input 5 : publication */
@@ -163,6 +167,7 @@ public class AddBookPanel extends JPanel {
         tfPublication = new JTextField();
         tfPublication.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfPublication.setBounds(190, 160, 320, 30);
+        tfPublication.addKeyListener(bookKeyListener);
         this.add(tfPublication);
 
         /* Input 6 : Date of Publication */
@@ -175,7 +180,7 @@ public class AddBookPanel extends JPanel {
         tfDatePublication = new JTextField();
         tfDatePublication.setFont(new Font("Trebuchet MS", Font.PLAIN, 18)); // NOI18N
         tfDatePublication.setBounds(710, 160, 285, 30);
-        this.add(tfDatePublication);
+        this.add(tfDatePublication); /* I have no added Listener here 'KeyListener' */
 
         calenderIcon = new ImageIcon("src\\assets\\calenderIcon.png");
         btnCalender = new JButton(calenderIcon);
@@ -192,6 +197,8 @@ public class AddBookPanel extends JPanel {
         }
 
         btnCalender.addActionListener(event -> {
+            mainContainer.setTitle("*BookStore (Unsaved)");
+
             dateChooser.showPopup();
         });
 
@@ -251,12 +258,16 @@ public class AddBookPanel extends JPanel {
         try {
             spBookPrice.addChangeListener(event -> {
 
+                mainContainer.setTitle("*BookStore (Unsaved)");
+
                 IntBookPrice = (int) spBookPrice.getValue();
                 IntBookTotalCost = IntBookPrice * IntBookQuantity;
                 tfTotalCost.setText("" + IntBookTotalCost);
 
             });
             spBookQuantity.addChangeListener(event -> {
+
+                mainContainer.setTitle("*BookStore (Unsaved)");
 
                 IntBookQuantity = (int) spBookQuantity.getValue();
                 IntBookTotalCost = IntBookPrice * IntBookQuantity;
