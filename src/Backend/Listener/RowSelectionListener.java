@@ -15,7 +15,7 @@ public class RowSelectionListener implements ListSelectionListener {
 
     private static BookStore bookStore;
     public static Vector test;
-    public static int selectedRow;
+    public static int selectedRow=0;
 
     public RowSelectionListener(BookStore bookStore) {
         RowSelectionListener.bookStore =bookStore;
@@ -33,12 +33,6 @@ public class RowSelectionListener implements ListSelectionListener {
             if (!event.getValueIsAdjusting() && selectedRow != -1) {
 
                 test = bookStore.bookTable.defaultTableModel.getDataVector().elementAt(bookStore.bookTable.bookTable.convertRowIndexToModel(bookStore.bookTable.bookTable.getSelectedRow()));
-
-                System.out.println(test);
-
-                for (Object T: test) {
-                    System.out.println(T);
-                }
 
                 /* Fill Text Field with data */
 

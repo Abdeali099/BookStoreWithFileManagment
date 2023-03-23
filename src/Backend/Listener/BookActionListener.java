@@ -90,9 +90,9 @@ public class BookActionListener implements ActionListener {
         }
 
         /* send to controller to Save changes Permanently */
-        updateBookDone =  performOperationOnBookData.SaveToFilePermanently(bookDataClassArrayList);
+        saveAllChangesDone =  performOperationOnBookData.SaveToFilePermanently(bookDataClassArrayList);
 
-        if (!updateBookDone) {
+        if (!saveAllChangesDone) {
             JOptionPane.showMessageDialog(null,"Error In saving File!!","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -100,6 +100,10 @@ public class BookActionListener implements ActionListener {
         /* Set Title */
         BookKeyListener.TitleFlag=false;
         bookStore.setTitle("Book Store");
+
+        /* reset flag of update and add*/
+        addBookDone=false;
+        deleteBookDone=false;
 
         /* Here give Toast */
 
@@ -211,30 +215,40 @@ public class BookActionListener implements ActionListener {
 
     private void doDeleteOperation() {
 
-        /* Steps :
-        *  1) Select One row Of table (At time only one can select)
-        *  2) Fetched data to TextField from JTable selected row. (One common method caused Updated also use same)
-        *  3) Click on  'Delete' button
-        *                    -> Confirmation
-        *                    -> Send which book selected (BookId) and Which row (Row Number)
-        *                    -> Delete from ArrayList in Action Listener class
-        *                    -> Pass to Controller with BookId
-        *                    -> Goes to File management and perform Delete operation in Data file.
-        *
-        *           !! Above logic will not work !!
-        *
-        *             -- Logic 1 --
-        *          1) Pass whole ArrayList to controller
-        *          2) Delete Old File -> Create a new File
-        *          3) Rewrite whole ArrayList (Very Costly)
-        *
-        *           -- Logic 2 --
-        *
-        *          1) Change whole design add one "Save" Button
-        *          2) Add Whole ArrayList instead of adding One object!!
-        *          3) See video on Yt how to do operation on JTable!
-         * */
+        int rowSelected=RowSelectionListener.selectedRow;
 
+        /* Check Whether Row is selected or Not */
+        if (rowSelected<=0) {
+            JOptionPane.showMessageDialog(null,"No row is selected!!","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        /* Taking confirmation */
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure to delete?", "Delete", JOptionPane.YES_NO_OPTION);
+        // input : 0=yes, 1=no
+
+        if (input == 1) {
+            return;
+        }
+
+        /* if ( Selected & confirmed ) then Remove it from Table*/
+        bookStore.bookTable.defaultTableModel.removeRow(rowSelected);
+
+        /* Also from ArrayList */
+        bookDataClassArrayList.remove(rowSelected);
+
+        /* Updating status of deletion */
+        deleteBookDone=true;
+
+        clearInputFields();
+
+        /* DeSelect row */
+        bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
+
+        /* Reset ID Field which  was changed when Row selected */
+        bookStore.addBookPanel.tfBookID.setEditable(true);
+        Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+        bookStore.addBookPanel.tfBookID.setCursor(cursor);
 
     }
 
