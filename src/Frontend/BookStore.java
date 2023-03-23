@@ -1,12 +1,15 @@
 package Frontend;
 
 import Backend.Listener.BookActionListener;
-import Frontend.BooksPanel.AddBookPanel.*;
-import Frontend.BooksPanel.AvialableBook.*;
-import Frontend.BooksPanel.FilterBookPanel.*;
+import Backend.Listener.WindowClosingListener;
+import Frontend.BooksPanel.AddBookPanel.AddBookPanel;
+import Frontend.BooksPanel.AvialableBook.BookTable;
+import Frontend.BooksPanel.FilterBookPanel.BookFilterPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /* It is a Main Frame */
 public class BookStore extends JFrame {
@@ -112,7 +115,17 @@ public class BookStore extends JFrame {
             System.out.println("Error  at Fetching from frontend : " + e.getMessage());
         }
 
+        /* Closing Validation */
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                WindowClosingListener.ValidateWindowClosing(BookStore.this);
+            }
+
+        });
+
         /* Temporary closing event */
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+
+    } /* Constructor close here*/
+
 }

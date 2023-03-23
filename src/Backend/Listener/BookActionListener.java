@@ -70,7 +70,7 @@ public class BookActionListener implements ActionListener {
         String operationHappen=event.getActionCommand();
 
         switch (operationHappen) {
-            case "Save" -> saveAllChanges();
+            case "Save" -> saveAllChanges(0);
             case "Add" -> doAddOperation();
             case "Update" -> doUpdateOperation();
             case "Delete" -> doDeleteOperation();
@@ -82,14 +82,31 @@ public class BookActionListener implements ActionListener {
 
     /* User defined methods - by Abdeali */
 
-    public void saveAllChanges() {
+    public void saveAllChanges(int calledFrom) {
 
-        /* First check Some Operation Has Ocuured or Not*/
+        /* calledFrom :
+        *  0 : Internally in ActionListener / Clicking on Save Button
+        *  1 : Called from Window closing Listener
+        *  Cause if there is a call from window but no Add,delete,update is clicked then it will stop execution
+        *  There is some bug which is not recognized when 'Yes' btn clicked all data remove
+        * */
 
-        if (!(addBookDone || deleteBookDone || updateBookDone)) {
-            JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+       // if (calledFrom==0) {
+
+            /* First check Some Operation Has Ocuured or Not*/
+
+            System.out.println("add : " + addBookDone);
+            System.out.println("delete : " + deleteBookDone);
+            System.out.println("update : " + updateBookDone);
+
+            if (!(addBookDone || deleteBookDone || updateBookDone)) {
+                JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+        // }
+
+       // System.out.println(bookDataClassArrayList);
 
         /* send to controller to Save changes Permanently */
         saveAllChangesDone =  performOperationOnBookData.SaveToFilePermanently(bookDataClassArrayList);
@@ -205,6 +222,9 @@ public class BookActionListener implements ActionListener {
             /* Updating status of add */
             addBookDone=true;
 
+            /* Set Title */
+            bookStore.setTitle("*Book Store (Unsaved)");
+
             clearInputFields();
         } catch (Exception e) {
             System.out.println("Error  at listener Add : " + e.getMessage());
@@ -217,7 +237,7 @@ public class BookActionListener implements ActionListener {
         int rowSelected=RowSelectionListener.selectedRow;
 
         /* Check Whether Row is selected or Not */
-        if (rowSelected<=0) {
+        if (rowSelected<0) {
             JOptionPane.showMessageDialog(null,"No row is selected!!","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -283,6 +303,9 @@ public class BookActionListener implements ActionListener {
         /* Updating status of deletion */
         updateBookDone=true;
 
+        /* Set Title */
+        bookStore.setTitle("*Book Store (Unsaved)");
+
         clearInputFields();
 
         /* DeSelect row */
@@ -299,7 +322,7 @@ public class BookActionListener implements ActionListener {
         int rowSelected=RowSelectionListener.selectedRow;
 
         /* Check Whether Row is selected or Not */
-        if (rowSelected<=0) {
+        if (rowSelected<0) {
             JOptionPane.showMessageDialog(null,"No row is selected!!","Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -327,6 +350,9 @@ public class BookActionListener implements ActionListener {
 
         /* Also from ArrayList */
         bookDataClassArrayList.remove(rowSelected);
+
+        /* Set Title */
+        bookStore.setTitle("*Book Store (Unsaved)");
 
         /* Updating status of deletion */
         deleteBookDone=true;

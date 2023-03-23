@@ -15,7 +15,7 @@ public class RowSelectionListener implements ListSelectionListener {
 
     private static BookStore bookStore;
     public static Vector test;
-    public static int selectedRow=0;
+    public static int selectedRow=-1;
 
     public RowSelectionListener(BookStore bookStore) {
         RowSelectionListener.bookStore =bookStore;
