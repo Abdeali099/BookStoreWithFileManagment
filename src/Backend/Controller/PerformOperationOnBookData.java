@@ -1,7 +1,7 @@
 /* This controller will handle / call File classes */
 package Backend.Controller;
 
-import Backend.FileManagment.AddUpdateDeleteByFile;
+import Backend.FileManagment.SavePermanentInFile;
 import Backend.FileManagment.FetchBookCoverByFile;
 import Backend.FileManagment.ReadBookFromFile;
 import Backend.Modal.BookDataClass;
@@ -12,37 +12,18 @@ import java.util.ArrayList;
 public class PerformOperationOnBookData implements OperationsOnBookData{
 
     @Override
-    public void AddBook(ArrayList<BookDataClass> bookDataClassArrayList) {
+    public boolean SaveToFilePermanently(ArrayList<BookDataClass> bookDataClassArrayList) {
 
-        /* I have to Add This at 2 Place
-         *
-         * 1) In File : By File Management (Cause every time Adding ArrayList is not Good)
-         * 2) In ArrayList : to do Easy Operation (It is On Listener side)
-         * */
-
-         /* 1) Adding in File */
         try {
-            AddUpdateDeleteByFile.AddUpdateDeleteToFile(bookDataClassArrayList);
+            SavePermanentInFile.SaveToFile(bookDataClassArrayList);
         } catch (IOException e) {
-            System.out.println("Error in Controlled Add Data: " + e + " Msg : " + e.getMessage());
+            System.out.println("Error in Controlled Saved Data: " + e + " Msg : " + e.getMessage());
+            return false;
         }
+
+    return true;
     }
 
-    @Override
-    public void updateBook(int bookId) {
-        int i=0;
-    }
-
-    @Override
-    public void deleteBook(int bookId) {
-        int i=0;
-
-    }
-
-//    @Override
-//    public BookDataClass searchBook(int bookId) {
-//        int i=0;
-//    }
     @Override
     public String fetchBookCover() {
         return FetchBookCoverByFile.fetchBookCoverFromDevice();
@@ -51,7 +32,6 @@ public class PerformOperationOnBookData implements OperationsOnBookData{
     @Override
     public ArrayList<BookDataClass> fetchAllStoredData() {
         try {
-            System.out.println("I am in control");
             return ReadBookFromFile.fetchAllStoredDataFromFile();
         } catch (IOException e) {
             System.out.println("Error in Controlled Fetched Data: " + e + " Msg : " + e.getMessage());

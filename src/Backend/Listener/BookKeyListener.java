@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 
 public class BookKeyListener implements KeyListener {
     BookStore bookStore;
+    public static boolean TitleFlag=false;
 
     public BookKeyListener(BookStore bookStore) {
         this.bookStore = bookStore;
@@ -21,9 +22,12 @@ public class BookKeyListener implements KeyListener {
 
         /* Some TextFiled Are changes */
 
-        // Set this to once Until :any Button Clicked
+        // Set this to once Until :Save done
 
-        bookStore.setTitle("*BookStore (Unsaved)");
+        if (!TitleFlag) {
+            bookStore.setTitle("*Book Store (Unsaved)");
+            TitleFlag=true;
+        }
 
     }
 

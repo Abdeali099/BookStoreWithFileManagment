@@ -5,7 +5,7 @@ import Backend.Modal.BookDataClass;
 import java.io.*;
 import java.util.ArrayList;
 
-public class AddUpdateDeleteByFile {
+public class SavePermanentInFile {
 
     private static final String dataFilePath="src\\Data\\AllBooksData.dat";
     private static FileOutputStream fos=null;
@@ -13,7 +13,7 @@ public class AddUpdateDeleteByFile {
 
 
     /* -- Method --*/
-    public static void AddUpdateDeleteToFile(ArrayList<BookDataClass> bookDataClassArrayList) throws IOException {
+    public static void SaveToFile(ArrayList<BookDataClass> bookDataClassArrayList) throws IOException {
 
             try {
                 /* Initialize File  Output class */

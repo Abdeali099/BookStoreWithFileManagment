@@ -44,7 +44,7 @@ public class BookActionListener implements ActionListener {
 
     /* Flags to know what had done ? : Add|Delete|Update (Cancel is not necessary)*/
 
-    static boolean  addBookDone,updateBookDone,deleteBookDone,saveAllChangesDone;
+    public static boolean  addBookDone,updateBookDone,deleteBookDone,saveAllChangesDone;
 
     /* Actual data of Book Data (Modal) */
     private int bookId,bookPrice=200,bookQuantity=1,totalCost=bookPrice*bookQuantity;
@@ -81,6 +81,27 @@ public class BookActionListener implements ActionListener {
     /* User defined methods - by Abdeali */
 
     public void saveAllChanges() {
+
+        /* First check Some Operation Has Ocuured or Not*/
+
+        if (!(addBookDone || deleteBookDone)) {
+            JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        /* send to controller to Save changes Permanently */
+        updateBookDone =  performOperationOnBookData.SaveToFilePermanently(bookDataClassArrayList);
+
+        if (!updateBookDone) {
+            JOptionPane.showMessageDialog(null,"Error In saving File!!","Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        /* Set Title */
+        BookKeyListener.TitleFlag=false;
+        bookStore.setTitle("Book Store");
+
+        /* Here give Toast */
 
     }
 
@@ -166,9 +187,6 @@ public class BookActionListener implements ActionListener {
             /* Adding book ID in array list , helpful in validation */
             idOfBooks.add(bookId);
 
-            /* send to controller*/
-            performOperationOnBookData.AddBook(bookDataClassArrayList);
-
             /* <--- Adding it to JTable Row ---> */
             /* Referencing Table Modal */
             DefaultTableModel tableModel=bookStore.bookTable.defaultTableModel;
@@ -188,13 +206,6 @@ public class BookActionListener implements ActionListener {
     }
 
     private void doUpdateOperation() {
-
-        /* First check Some Operation Has Ocuured or Not*/
-
-        if (!(addBookDone || deleteBookDone)) {
-            JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
 
     }
 

@@ -75,7 +75,7 @@ public class AddBookPanel extends JPanel {
                 try{
 
                     char keyChar = typedEvent.getKeyChar();
-                    mainContainer.setTitle("*BookStore (Unsaved)");
+                    mainContainer.setTitle("*Book Store (Unsaved)");
 
                     if (!(keyChar >= 48 && keyChar <= 57) && !(keyChar==8 || keyChar==127)) {
                         JOptionPane optionPane = new JOptionPane("ID can only be a number", JOptionPane.ERROR_MESSAGE);
@@ -197,7 +197,7 @@ public class AddBookPanel extends JPanel {
         }
 
         btnCalender.addActionListener(event -> {
-            mainContainer.setTitle("*BookStore (Unsaved)");
+            mainContainer.setTitle("*Book Store (Unsaved)");
 
             dateChooser.showPopup();
         });
@@ -258,7 +258,7 @@ public class AddBookPanel extends JPanel {
         try {
             spBookPrice.addChangeListener(event -> {
 
-                mainContainer.setTitle("*BookStore (Unsaved)");
+                mainContainer.setTitle("*Book Store (Unsaved)");
 
                 IntBookPrice = (int) spBookPrice.getValue();
                 IntBookTotalCost = IntBookPrice * IntBookQuantity;
@@ -267,7 +267,7 @@ public class AddBookPanel extends JPanel {
             });
             spBookQuantity.addChangeListener(event -> {
 
-                mainContainer.setTitle("*BookStore (Unsaved)");
+                mainContainer.setTitle("*Book Store (Unsaved)");
 
                 IntBookQuantity = (int) spBookQuantity.getValue();
                 IntBookTotalCost = IntBookPrice * IntBookQuantity;

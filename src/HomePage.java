@@ -8,7 +8,7 @@ public class HomePage {
 
     public static void main(String[] args) {
 
-        BookStore bs = new BookStore("BookStore");
+        BookStore bs = new BookStore("Book Store");
 
         bs.setVisible(true);
         bs.setLocation(60, 100);
