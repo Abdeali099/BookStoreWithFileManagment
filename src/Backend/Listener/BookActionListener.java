@@ -159,13 +159,21 @@ public class BookActionListener implements ActionListener {
                 bookPrice = bookDataClass.getBookPrice();
                 bookQuantity = bookDataClass.getBookQuantity();
                 totalCost = bookDataClass.getTotalCost();
+
                 bookCoverPath = bookDataClass.getBookCoverPath();
 
+                /* Setting Image to row */
+                JLabel imgLabelInRow=new JLabel();
+                ImageIcon bookCoverIcon = new ImageIcon(bookCoverPath);
+                Image img = bookCoverIcon.getImage().getScaledInstance(120, 80, Image.SCALE_SMOOTH);
+                imgLabelInRow.setIcon(new ImageIcon(img));
+
                 /* Making One Row */
-                Object[] dataOfRow = {bookId, bookName, bookSubject, authorName, publication, dateOfPublication, bookPrice, bookQuantity, totalCost, bookCoverPath};
+                Object[] dataOfRow = {bookId, bookName, bookSubject, authorName, publication, dateOfPublication, bookPrice, bookQuantity, totalCost, imgLabelInRow};
 
                 /* Adding One Row */
                 tableModel.addRow(dataOfRow);
+
             });
 
         } catch (Exception e) {
@@ -195,7 +203,15 @@ public class BookActionListener implements ActionListener {
         bookDataClass.setBookPrice(bookPrice);
         bookDataClass.setBookQuantity(bookQuantity);
         bookDataClass.setTotalCost(totalCost);
+
         bookDataClass.setBookCoverPath(bookCoverPath);
+
+        /* Setting Image to row */
+
+        JLabel imgLabelInRow=new JLabel();
+        ImageIcon bookCoverIcon = new ImageIcon(bookCoverPath);
+        Image img = bookCoverIcon.getImage().getScaledInstance(120, 80, Image.SCALE_SMOOTH);
+        imgLabelInRow.setIcon(new ImageIcon(img));
 
         /* I have to Add This at 3 Place
          *
@@ -206,6 +222,11 @@ public class BookActionListener implements ActionListener {
 
         try {
 
+            if (bookDataClassArrayList == null) {
+                bookDataClassArrayList=new ArrayList<>();
+            }
+
+
             /* Adding object in arrayList */
             bookDataClassArrayList.add(bookDataClass);
             /* Adding book ID in array list , helpful in validation */
@@ -215,7 +236,7 @@ public class BookActionListener implements ActionListener {
             /* Referencing Table Modal */
             DefaultTableModel tableModel=bookStore.bookTable.defaultTableModel;
 
-            Object[] dataOfRow = {bookId,bookName,bookSubject,authorName,publication,dateOfPublication,bookPrice,bookQuantity,totalCost,bookCoverPath};
+            Object[] dataOfRow = {bookId,bookName,bookSubject,authorName,publication,dateOfPublication,bookPrice,bookQuantity,totalCost,imgLabelInRow};
 
             tableModel.addRow(dataOfRow);
 
@@ -280,7 +301,15 @@ public class BookActionListener implements ActionListener {
         updateTableModel.setValueAt(bookPrice , rowSelected, 6);
         updateTableModel.setValueAt(bookQuantity , rowSelected, 7);
         updateTableModel.setValueAt(totalCost , rowSelected, 8);
-        updateTableModel.setValueAt(bookCoverPath , rowSelected, 9);
+
+
+        /* Setting Image to row */
+        JLabel imgLabelInRow=new JLabel();
+        ImageIcon bookCoverIcon = new ImageIcon(bookCoverPath);
+        Image img = bookCoverIcon.getImage().getScaledInstance(120, 80, Image.SCALE_SMOOTH);
+        imgLabelInRow.setIcon(new ImageIcon(img));
+
+        updateTableModel.setValueAt(imgLabelInRow , rowSelected, 9);
 
 
         /* Also from ArrayList */
@@ -515,5 +544,8 @@ public class BookActionListener implements ActionListener {
         return true;
     }
 
+    public static ArrayList<BookDataClass> giveDataWhenRowSelected() {
+        return bookDataClassArrayList;
+    }
 
 } // class close

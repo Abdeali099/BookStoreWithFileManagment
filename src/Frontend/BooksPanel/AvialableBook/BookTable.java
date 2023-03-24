@@ -5,6 +5,8 @@ import Frontend.BookStore;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 
 public class BookTable extends JPanel {
@@ -44,6 +46,13 @@ public class BookTable extends JPanel {
         bookTable.setVisible(true);
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); /* Select Only One Row at a time */
         bookTable.getSelectionModel().addListSelectionListener(rowSelectionListener);
+        bookTable.setRowHeight(60);
+
+        /* Modifying for store the image in row*/
+        bookTable.getColumn("COVER").setCellRenderer(new MyTableCellRender());
+        TableColumn tableColumn=bookTable.getColumn("COVER");
+        tableColumn.setMaxWidth(120);
+        tableColumn.setMinWidth(120);
 
         jspBookTable = new JScrollPane(bookTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jspBookTable.setBounds(0, 0, 1500, 400);
@@ -52,4 +61,12 @@ public class BookTable extends JPanel {
         validate(); /* At loading Table visible */
     }
 
+}
+
+class MyTableCellRender implements TableCellRenderer {
+    @Override
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
+        return (Component) value;
+    }
 }

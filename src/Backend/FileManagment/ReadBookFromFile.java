@@ -18,11 +18,30 @@ public class ReadBookFromFile {
         try {
 
             File f=new File(dataFilePath);
+
+            if (!f.exists()) {
+                /* If data file id not exists create one*/
+                try {
+
+                    boolean result = f.createNewFile();
+
+                    if (result) {
+                        System.out.println("File Created Successfully");
+                    } else {
+                        System.out.println("File not created!!");
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Error at creating a data file : " + e +" Msg : " + e.getMessage());
+                }
+
+            }
+
              fis = new FileInputStream(dataFilePath);
              readBookDataFromFile = new ObjectInputStream(fis);
             arrayListBookDataClass=new ArrayList<>();
 
-            if (f.length()!=0) {
+            if (f.length()!=0 && f.exists()) {
                 arrayListBookDataClass = (ArrayList<BookDataClass>) readBookDataFromFile.readObject();
             }
 

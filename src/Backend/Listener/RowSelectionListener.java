@@ -1,5 +1,6 @@
 package Backend.Listener;
 
+import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
 import com.raven.datechooser.DateChooser;
 
@@ -8,6 +9,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
@@ -57,22 +59,26 @@ public class RowSelectionListener implements ListSelectionListener {
                 bookStore.addBookPanel.spBookPrice.setValue(test.get(6));
                 bookStore.addBookPanel.spBookQuantity.setValue(test.get(7));
                 bookStore.addBookPanel.tfTotalCost.setText(String.valueOf(test.get(8)));
-                bookStore.addBookPanel.bookCover.bookCoverPath = String.valueOf(test.get(9));
 
+                /* deriving ArrayList */
+                ArrayList<BookDataClass> bookDataClassArrayList=BookActionListener.giveDataWhenRowSelected();
+
+                /* Taking cover path from list */
+                String bookCoverPathInRow=bookDataClassArrayList.get(selectedRow).getBookCoverPath();
+
+                /* Setting it for frame */
+                bookStore.addBookPanel.bookCover.bookCoverPath = bookCoverPathInRow;
 
                 /* Taking reference from Frame*/
                 JLabel bookCoverImage = bookStore.addBookPanel.bookCover.bookCoverImage;
-
-                /* Setting Cover on Frame */
-                ImageIcon bookCoverIcon = new ImageIcon(String.valueOf(test.get(9)));
+                ImageIcon bookCoverIcon = new ImageIcon(bookCoverPathInRow);
                 Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
                 bookCoverImage.setIcon(new ImageIcon(img));
 
             }
 
         } catch (Exception e) {
-//            System.out.println("Error at List selection : " + e + " Msg : " + e.getMessage());
-            System.out.println(e);
+            System.out.println("Error at List selection : " + e + " Msg : " + e.getMessage());
         }
     }
 
