@@ -17,7 +17,7 @@ public class WindowClosingListener {
 
         if (title.charAt(0) == '*') {
 
-            int userChoice = JOptionPane.showConfirmDialog(bookStore, "Maybe there is some unchanged data which can lost!! \n Are you want to save changes?", "Save unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int userChoice = JOptionPane.showConfirmDialog(bookStore, "Maybe there is some unchanged data which can lost!! \n\t\t Are you want to save changes?", "Save unsaved changes", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
             /* userChoice :
             * 0 -> Yes

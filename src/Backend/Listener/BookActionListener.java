@@ -85,12 +85,6 @@ public class BookActionListener implements ActionListener {
 
     public void saveAllChanges() {
 
-            /* First check Some Operation Has Ocuured or Not*/
-
-            System.out.println("add : " + addBookDone);
-            System.out.println("delete : " + deleteBookDone);
-            System.out.println("update : " + updateBookDone);
-
             if (!(addBookDone || deleteBookDone || updateBookDone)) {
                 JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
                 return;
@@ -114,7 +108,7 @@ public class BookActionListener implements ActionListener {
         updateBookDone=false;
 
         /* Here give Toast */
-        ShowToastOnOpeartion("Data saved Successfully database!!");
+        ShowToastOnOpeartion("Data saved Successfully in database!!");
 
     }
 

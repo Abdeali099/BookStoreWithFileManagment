@@ -32,8 +32,6 @@ public class BookTable extends JPanel {
         /* Initialize listener */
         rowSelectionListener=new RowSelectionListener(mainContainer);
 
-        this.setPreferredSize(new Dimension(1400, 400));
-
         {
             defaultTableModel = new DefaultTableModel(column, 0) {
                 @Override
@@ -48,10 +46,10 @@ public class BookTable extends JPanel {
         bookTable = new JTable(defaultTableModel){
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
             Component comp = super.prepareRenderer(renderer, row, column);
-            Color alternateColor = new Color(179, 208, 221, 220);
-            Color whiteColor = new Color(208, 222, 232, 255);
+            Color alternateColor = new Color(202, 217, 224, 220);
+            Color whiteColor = new Color(233, 240, 245, 255);
             if(!comp.getBackground().equals(getSelectionBackground())) {
-                Color backGround = (row % 2 == 0 ? alternateColor : whiteColor);
+                Color backGround = (row % 2 == 0 ? whiteColor :  alternateColor);
                 comp.setBackground(backGround);
                 comp.setFont(new java.awt.Font("Yu Gothic Medium", Font.BOLD, 16));
             }
