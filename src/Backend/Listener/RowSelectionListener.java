@@ -30,6 +30,14 @@ public class RowSelectionListener implements ListSelectionListener {
 
         try {
 
+             /* Clear search Text Field Data before doing any operation */
+             String searchFieldData=bookStore.bookFilterPanel.tfSearchField.getText();
+
+            if (!searchFieldData.isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Remove data from search field to get appropriate selection","Warning",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             /* Which Row is selected*/
              selectedRow = bookStore.bookTable.bookTable.getSelectedRow();
 
