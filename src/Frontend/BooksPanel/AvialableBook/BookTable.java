@@ -4,6 +4,7 @@ import Backend.Listener.RowSelectionListener;
 import Frontend.BookStore;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -42,11 +43,38 @@ public class BookTable extends JPanel {
             };
         }
 
-        bookTable = new JTable(defaultTableModel);
+//        color of header : #4f81bd
+
+        bookTable = new JTable(defaultTableModel){
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+            Component comp = super.prepareRenderer(renderer, row, column);
+            Color alternateColor = new Color(179, 208, 221, 220);
+            Color whiteColor = new Color(208, 222, 232, 255);
+            if(!comp.getBackground().equals(getSelectionBackground())) {
+                Color backGround = (row % 2 == 0 ? alternateColor : whiteColor);
+                comp.setBackground(backGround);
+                comp.setFont(new java.awt.Font("Yu Gothic Medium", Font.BOLD, 16));
+            }
+            return comp;
+        }
+    };
         bookTable.setVisible(true);
         bookTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); /* Select Only One Row at a time */
         bookTable.getSelectionModel().addListSelectionListener(rowSelectionListener);
         bookTable.setRowHeight(60);
+
+        /* Setting table header */
+        bookTable.getTableHeader().setForeground(new Color(255, 255, 255));
+        bookTable.getTableHeader().setBackground(new Color(0, 103, 184));
+        bookTable.getTableHeader().setAlignmentY(SwingConstants.CENTER);
+        bookTable.getTableHeader().setFont(new java.awt.Font("Yu Gothic Medium", Font.BOLD, 16));
+
+        /* Center data row*/
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+        for(int columnNo=0;columnNo<column.length-1;columnNo++){
+            bookTable.getColumnModel().getColumn(columnNo).setCellRenderer(centerRenderer );
+        }
 
         /* Modifying for store the image in row*/
         bookTable.getColumn("COVER").setCellRenderer(new MyTableCellRender());
@@ -54,7 +82,7 @@ public class BookTable extends JPanel {
         tableColumn.setMaxWidth(120);
         tableColumn.setMinWidth(120);
 
-        jspBookTable = new JScrollPane(bookTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jspBookTable = new JScrollPane(bookTable, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         jspBookTable.setBounds(0, 0, 1500, 400);
 
         this.add(jspBookTable);
