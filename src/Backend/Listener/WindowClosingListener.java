@@ -1,3 +1,5 @@
+/* This will help when user closing frame and not saved data yet! */
+
 package Backend.Listener;
 
 import Frontend.BookStore;
@@ -24,7 +26,7 @@ public class WindowClosingListener {
             * */
              if (userChoice==0) {
                 BookActionListener bookActionListener=new BookActionListener(bookStore);
-                bookActionListener.saveAllChanges(1);
+                bookActionListener.saveAllChanges();
              }
              else if (userChoice == 1) {
                  bookStore.dispose();

@@ -70,7 +70,7 @@ public class BookActionListener implements ActionListener {
         String operationHappen=event.getActionCommand();
 
         switch (operationHappen) {
-            case "Save" -> saveAllChanges(0);
+            case "Save" -> saveAllChanges();
             case "Add" -> doAddOperation();
             case "Update" -> doUpdateOperation();
             case "Delete" -> doDeleteOperation();
@@ -82,16 +82,7 @@ public class BookActionListener implements ActionListener {
 
     /* User defined methods - by Abdeali */
 
-    public void saveAllChanges(int calledFrom) {
-
-        /* calledFrom :
-        *  0 : Internally in ActionListener / Clicking on Save Button
-        *  1 : Called from Window closing Listener
-        *  Cause if there is a call from window but no Add,delete,update is clicked then it will stop execution
-        *  There is some bug which is not recognized when 'Yes' btn clicked all data remove
-        * */
-
-       // if (calledFrom==0) {
+    public void saveAllChanges() {
 
             /* First check Some Operation Has Ocuured or Not*/
 
@@ -103,10 +94,6 @@ public class BookActionListener implements ActionListener {
                 JOptionPane.showMessageDialog(null,"No data for saving!!","Error",JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-        // }
-
-       // System.out.println(bookDataClassArrayList);
 
         /* send to controller to Save changes Permanently */
         saveAllChangesDone =  performOperationOnBookData.SaveToFilePermanently(bookDataClassArrayList);
