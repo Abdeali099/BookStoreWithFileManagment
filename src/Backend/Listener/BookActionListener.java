@@ -409,7 +409,13 @@ public class BookActionListener implements ActionListener {
                 return;
             }
 
+            bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
             clearInputFields();
+
+            /* Reset ID Field which  was changed when Row selected */
+            bookStore.addBookPanel.tfBookID.setEditable(true);
+            Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+            bookStore.addBookPanel.tfBookID.setCursor(cursor);
 
         } catch (Exception e) {
             System.out.println("Error  at cancel operation : " + e.getMessage());
@@ -445,6 +451,7 @@ public class BookActionListener implements ActionListener {
 
         DateChooser dateChooser = bookStore.addBookPanel.dateChooser;
         dateChooser.setTextRefernce(bookStore.addBookPanel.tfDatePublication);
+        dateChooser.setSelectedDate(new Date());
 
         bookStore.addBookPanel.spBookPrice.setValue(200);
         bookStore.addBookPanel.spBookQuantity.setValue(1);

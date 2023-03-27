@@ -17,3 +17,9 @@ public class HomePage {
     }
 
 }
+
+/* Bugs :
+* 1) yes  : have problem
+* 2) no : have problem
+* 3) Cancle () :problem
+* */
