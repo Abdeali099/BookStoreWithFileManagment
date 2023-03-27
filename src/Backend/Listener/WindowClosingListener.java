@@ -3,8 +3,8 @@
 package Backend.Listener;
 
 import Frontend.BookStore;
-
 import javax.swing.*;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class WindowClosingListener {
 
@@ -29,7 +29,7 @@ public class WindowClosingListener {
                 bookActionListener.saveAllChanges();
              }
              else if (userChoice == 1) {
-                 bookStore.dispose();
+                 bookStore.setDefaultCloseOperation(EXIT_ON_CLOSE);
              }
              else {
                  bookStore.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

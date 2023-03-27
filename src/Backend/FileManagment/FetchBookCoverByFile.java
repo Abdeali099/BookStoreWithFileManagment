@@ -11,7 +11,7 @@ public class FetchBookCoverByFile {
 
         try {
             /* File Chooser Prompt */
-            JFileChooser browseImage = new JFileChooser();
+            JFileChooser browseImage = new JFileChooser("C:\\Users\\abdea\\Desktop\\Study\\Sem 6\\AJT\\BookCoverForAssignment");
 
             /* Filter Image Extension (it is not working actually) */
             FileNameExtensionFilter onlyForImg = new FileNameExtensionFilter("Choose Book Cover", "png", "jpg", "jpeg");

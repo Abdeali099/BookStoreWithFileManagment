@@ -18,6 +18,7 @@ package Backend.Listener;
 import Backend.Controller.PerformOperationOnBookData;
 import Backend.Modal.BookDataClass;
 import Frontend.BookStore;
+import Frontend.Helpers.Toast;
 import com.raven.datechooser.DateChooser;
 
 import javax.swing.*;
@@ -113,6 +114,7 @@ public class BookActionListener implements ActionListener {
         updateBookDone=false;
 
         /* Here give Toast */
+        ShowToastOnOpeartion("Data saved Successfully database!!");
 
     }
 
@@ -234,6 +236,9 @@ public class BookActionListener implements ActionListener {
             bookStore.setTitle("*Book Store (Unsaved)");
 
             clearInputFields();
+
+            ShowToastOnOpeartion("Data added Successfully (Not saved in database) !!");
+
         } catch (Exception e) {
             System.out.println("Error  at listener Add : " + e.getMessage());
         }
@@ -331,6 +336,9 @@ public class BookActionListener implements ActionListener {
         bookStore.addBookPanel.tfBookID.setEditable(true);
         Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
         bookStore.addBookPanel.tfBookID.setCursor(cursor);
+
+        ShowToastOnOpeartion("Data updated Successfully (Not saved in database) !!");
+
     }
 
     private void doDeleteOperation() {
@@ -383,6 +391,7 @@ public class BookActionListener implements ActionListener {
         Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
         bookStore.addBookPanel.tfBookID.setCursor(cursor);
 
+        ShowToastOnOpeartion("Data deleted Successfully (Not saved in database) !!");
     }
 
     private void doCancelOperation() {
@@ -403,6 +412,8 @@ public class BookActionListener implements ActionListener {
             bookStore.addBookPanel.tfBookID.setEditable(true);
             Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
             bookStore.addBookPanel.tfBookID.setCursor(cursor);
+
+            ShowToastOnOpeartion("Operation canceled successfully!!");
 
         } catch (Exception e) {
             System.out.println("Error  at cancel operation : " + e.getMessage());
@@ -426,6 +437,7 @@ public class BookActionListener implements ActionListener {
         Image img = bookCoverIcon.getImage().getScaledInstance(bookCoverImage.getWidth(), bookCoverImage.getHeight(), Image.SCALE_SMOOTH);
         bookCoverImage.setIcon(new ImageIcon(img));
 
+        ShowToastOnOpeartion("Image Browse Successfully!!");
     }
 
     private void clearInputFields() {
@@ -542,4 +554,13 @@ public class BookActionListener implements ActionListener {
         return bookDataClassArrayList;
     }
 
+    private void ShowToastOnOpeartion(String operationDone) {
+        try {
+            Toast toast=new Toast(operationDone,610,550);
+            toast.showtoast();
+        } catch (Exception e) {
+            System.out.println("Error in showing Toast (Action Listener)!!");
+        }
+
+    }
 } // class close
