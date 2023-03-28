@@ -253,7 +253,7 @@ public class BookActionListener implements ActionListener {
         int input = JOptionPane.showConfirmDialog(null, "Are you sure to update?", "Update", JOptionPane.YES_NO_OPTION);
         // input : 0=yes, 1=no
 
-        if (input == 1) {
+        if (input == 1 || input == -1) {
             /* DeSelect row */
             bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
 
@@ -266,7 +266,6 @@ public class BookActionListener implements ActionListener {
 
             return;
         }
-
         /* Checking Validation  */
         boolean shouldGoFurther=checkValidation(1);
 
@@ -349,7 +348,7 @@ public class BookActionListener implements ActionListener {
         int input = JOptionPane.showConfirmDialog(null, "Are you sure to delete?", "Delete", JOptionPane.YES_NO_OPTION);
         // input : 0=yes, 1=no
 
-        if (input == 1) {
+        if (input == 1 || input == -1) {
             /* DeSelect row */
             bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
 
@@ -395,20 +394,21 @@ public class BookActionListener implements ActionListener {
             int input = JOptionPane.showConfirmDialog(null, "Are you sure to cancel?", "Cancel", JOptionPane.YES_NO_OPTION);
             // input : 0=yes, 1=no
 
-            if (input == 1) {
-                return;
+            if (input == 0 || input == -1) {
+                /* DeSelect row */
+                bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
+
+                clearInputFields();
+
+                /* Reset ID Field which  was changed when Row selected */
+                bookStore.addBookPanel.tfBookID.setEditable(true);
+                Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+                bookStore.addBookPanel.tfBookID.setCursor(cursor);
+
+                if (input==0) {
+                    ShowToastOnOpeartion("Operation canceled successfully!!");
+                }
             }
-
-            bookStore.bookTable.bookTable.getSelectionModel().clearSelection();
-            clearInputFields();
-
-            /* Reset ID Field which  was changed when Row selected */
-            bookStore.addBookPanel.tfBookID.setEditable(true);
-            Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
-            bookStore.addBookPanel.tfBookID.setCursor(cursor);
-
-            ShowToastOnOpeartion("Operation canceled successfully!!");
-
         } catch (Exception e) {
             System.out.println("Error  at cancel operation : " + e.getMessage());
         }
